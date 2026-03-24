@@ -102,6 +102,7 @@
         "Die App wird bereit gestellt von <a href=\"{{odp.anbieter.url}}\">{{odp.anbieter.name}}</a>",
         "## Datenquelle",
         "Die Daten kommen aus unserem Open Data Portal <a href=\"{{odp.url}}\">{{odp.name}}</a>",
+        "Die Daten sind im Datensatz beschrieben: <a href=\"https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend\"",
         "Die Datenquelle ist in unserem Open Data Portal <a href=\"{{appinstanz.apiurl}}\">{{appinstanz.apiurl}}</a>.",
         "## Über diese App",
         "Die App wurde entwickelt von <a href=\"{{app.developer.url}}\">{{app.developer.name}}</a>. App-Version: {{app.version}}.",
@@ -156,7 +157,7 @@
       "format": {
         "typ": "url"
       },
-      "default": "",
+      "default": "https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend",
       "beispiel": "",
       "erforderlich": "ja"
     },
