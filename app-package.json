@@ -2,15 +2,15 @@
   "app-entwickler-id": "12343",
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "klimastationen-bw",
-  "name": "Klimastationen BW",
+  "name": "Klimastationen",
   "version": "1.0.0",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
-  "kurzbeschreibung": "Visualisiert Klimadaten aus Baden-Wuerttemberg mit KPIs, Temperaturverlauf und Tagesdaten.",
+  "kurzbeschreibung": "Visualisiert Klimadaten aus konfigurierbaren Klimastationen mit KPIs, Temperaturverlauf und Tagesdaten.",
   "beschreibung": [
     "_multiline_",
-    "Die Klimastationen BW App zeigt Wetter- und Klimadaten als interaktive Auswertung.",
-    "Im Fokus stehen Temperaturkennzahlen, Niederschlag und zeitliche Verlaeufe.",
+    "Die Klimastationen App zeigt Wetter- und Klimadaten als interaktive Auswertung.",
+    "Im Fokus stehen Temperaturkennzahlen, Niederschlag und zeitliche Verläufe.",
     "Die Daten werden aus einem Open Data Portal bezogen.",
     ""
   ],
@@ -33,7 +33,7 @@
     "seitentitel": {
       "label": "Seitentitel",
       "hilfe": "Der Seitentitel wird im Browser-Tab der App angezeigt",
-      "default": "Klimastationen BW",
+      "default": "Klimastationen",
       "format": {
         "typ": "string",
         "laenge": 50
@@ -53,7 +53,7 @@
     "titel": {
       "label": "Titel",
       "hilfe": "Der Titel wird in der Titelzeile der App angezeigt",
-      "default": "Klimastationen BW",
+      "default": "Klimastationen",
       "format": {
         "typ": "string",
         "laenge": 50
@@ -95,7 +95,7 @@
       },
       "default": [
         "_multiline_",
-        "Die Klimastationen BW App zeigt die jeweils definierten Klimadaten.",
+        "Die Klimastationen App zeigt die jeweils definierten Klimadaten.",
         "Die Daten werden tagesaktuell gehalten. Bei Änderungen versuchen wir,",
         "den Datenbestand immer sofort zu aktualisieren.",
         "## App-Anbieter",
@@ -153,7 +153,7 @@
     },
     "urlDaten": {
       "label": "URL zum Datensatz im ODP",
-      "hilfe": "Der Datensatz im Open Data Portal mit den Daten der Klimastationen BW App",
+      "hilfe": "Der Datensatz im Open Data Portal mit den Daten der Klimastationen App",
       "format": {
         "typ": "url"
       },

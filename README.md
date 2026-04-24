@@ -1,8 +1,8 @@
-# ODAS App Klimastationen BW
+# ODAS App Klimastationen
 
-Klimastationen BW App für den Open Data App-Store (ODAS).
+Klimastationen App für den Open Data App-Store (ODAS).
 
-Die App visualisiert Klimamessdaten aus Baden-Wuerttemberg und zeigt sie als KPIs, Diagramm und Tabelle.
+Die App visualisiert Klimamessdaten und zeigt sie als KPIs, Diagramm und Tabelle.
 
 Die App ist eine "ODAS App V1".
 
@@ -22,19 +22,19 @@ Die App ist eine Single-Page-Application Webapp mit:
 - Seiten für Impressum, Datenschutz, Beschreibung, Kontakt, Hauptinhalt
 - Inhaltsbereich
 - Fußzeile
-- KPI-Kacheln fuer Messtage, Temperatur und Regen
-- Linienchart fuer den Temperaturverlauf
+- KPI-Kacheln für Messtage, Temperatur und Regen
+- Linienchart für den Temperaturverlauf
 - Filter nach Monat und paginierte Datentabelle
 
 Die Konfiguration wird vom ODAS geladen.
 
-Die Klimadaten werden ueber die konfigurierte apiurl geladen.
+Die Klimadaten werden über die konfigurierte apiurl geladen.
 
 ## Entwicklung
 
     $ make build up
 
-Die App wird dadurch gestartet und steht auf Port 8090 zur Verfuegung:
+Die App wird dadurch gestartet und steht auf Port 8090 zur Verfügung:
 
 http://localhost:8090
 
