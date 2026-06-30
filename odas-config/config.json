@@ -6,11 +6,20 @@
   "brandingCSS": ".title {color: #ffffff} body { background-color: #f8f8f8; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333; margin: 0; padding: 0; } header, .header, .navbar, footer, .footer { background-color: #378681; color: #ffffff; padding: 1rem; } a { color: #378681; text-decoration: none; } a:hover, a:focus { color: #2e6f72; text-decoration: underline; } button, .btn { background-color: #378681; border: none; color: #fff; padding: 0.5rem 1rem; cursor: pointer; font-size: 1rem; border-radius: 4px; } button:hover, .btn:hover { background-color: #2e6f72; } h1, h2, h3, h4, h5, h6 { color: #378681; margin-top: 0; } .container { max-width: 1200px; margin: 0 auto; padding: 1rem; }",
   "brandingCSSFile": "./assets/branding.css",
   "beschreibung": [
-    "Die App ist eine ",
-    "generische welche\n",
-    "wosweitergeht\n",
-    "## titel \n",
-    "und normaler text."
+    "Die Klimastationen-App zeigt die Wetter- und Klimadaten einer konfigurierten Messstation in Karlsruhe und der Region.",
+    "Temperatur, Niederschlag, Wind, Luftdruck, Luftfeuchte und Sonnenscheindauer werden als Kennzahlen, Diagramm und Tabelle aufbereitet. Die Daten werden moeglichst tagesaktuell gehalten.",
+    "## Für wen ist diese App?",
+    "Diese App richtet sich an Bürgerinnen und Bürger in Karlsruhe und der Region, an die Stadtverwaltung sowie an alle, die sich für Wetter und Klima interessieren. Voraussetzung ist kein spezielles Datenwissen – wer die Wetter- und Klimaentwicklung der Region nachvollziehen möchte, kann die App direkt nutzen.",
+    "## Inhalte",
+    "Die App stellt die wichtigsten Wetter- und Klimagrößen übersichtlich dar: aktuelle Kennzahlen, einen Verlauf als Diagramm sowie eine durchsuchbare Tabelle der Messwerte. Über die Konfiguration lässt sich die angezeigte Messstation bzw. Datenquelle anpassen.",
+    "## Datenquelle",
+    "Die Wetterdaten stammen vom Deutschen Wetterdienst (DWD) und werden über das Transparenzportal Karlsruhe als 13-Monats-Rückblick bereitgestellt. Vollständigkeit und Aktualität hängen vom Bereitstellungsintervall der Quelle ab.",
+    "",
+    "- **Open Data Portal:** <a href=\"https://transparenz.karlsruhe.de\" target=\"_blank\" rel=\"noopener\">Transparenzportal Karlsruhe</a>",
+    "- **Datensatz:** <a href=\"https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend\" target=\"_blank\" rel=\"noopener\">Wetterdaten 13 Monate rückwirkend</a>",
+    "- **Ressource:** <a href=\"https://web1.karlsruhe.de/klima/file/wetter_13m.csv\" target=\"_blank\" rel=\"noopener\">wetter_13m.csv</a>",
+    "## Open Data App Store",
+    "Die App ist für den Open Data App Store entwickelt und nutzt das ODAS-Konfigurationsmodell für Datenquelle und Anzeige."
   ],
   "kontakt": [
     "Tel.: <a href='tel:+49711310093100'>0711-31009-3100</a><br>",
@@ -32,5 +41,16 @@
     "Provided by: Ondics GmbH"
   ],
   "apiurl": "https://web1.karlsruhe.de/klima/file/wetter_13m.csv",
+  "weiterfuehrendeLinks": "<ul><li><a href='https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend' target='_blank'>Wetterdaten Karlsruhe (Transparenzportal)</a></li><li><a href='https://www.dwd.de/' target='_blank'>Deutscher Wetterdienst (DWD)</a></li></ul>",
+  "datenquelleHinweis": "<p>Die Wetterdaten stammen vom <a href=\"https://www.dwd.de/\" target=\"_blank\" rel=\"noopener\">Deutschen Wetterdienst (DWD)</a> und werden über das <a href=\"https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend\" target=\"_blank\" rel=\"noopener\">Transparenzportal Karlsruhe</a> als 13-Monats-Rückblick bereitgestellt. Angezeigt werden Temperatur, Regen, Wind, Luftdruck, Luftfeuchte und Sonnenscheindauer der konfigurierten Messstation.</p><p>Vollständigkeit und Aktualität hängen vom Bereitstellungsintervall der Datenquelle ab.</p>",
+  "datenStand": "Stand: 13-Monats-Rückblick (DWD via Transparenzportal Karlsruhe)",
+  "kpiKontext1": "Anzahl der Tage mit Messwerten im gewählten Zeitraum.",
+  "kpiKontext2": "Durchschnitt der Tagesmitteltemperaturen.",
+  "kpiKontext3": "Höchste gemessene Temperatur im Zeitraum.",
+  "kpiKontext4": "Summe aller Niederschläge im Zeitraum.",
+  "kpiKontext5": "Stärkste gemessene Windböe im Zeitraum.",
+  "kpiKontext6": "Durchschnitt des Tagesmittels des Luftdrucks.",
+  "kpiKontext7": "Durchschnitt der Tagesmittel der relativen Luftfeuchte.",
+  "kpiKontext8": "Summe der Sonnenscheindauer im Zeitraum in Stunden.",
   "sprache": "de"
 }

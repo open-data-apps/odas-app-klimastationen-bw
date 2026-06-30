@@ -44,40 +44,50 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     Sonnenscheindauer_Min: "Sonne (Min)",
   };
 
+  const kk = (n) => {
+    const t = String(configdata["kpiKontext" + n] || "").trim();
+    if (!t) return '';
+    return (
+      '<button class="klima-kpi-info-toggle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#klima-kpi-kontext-' + n + '" aria-expanded="false" aria-controls="klima-kpi-kontext-' + n + '" aria-label="Erklärung zu diesem Wert"><span class="klima-kpi-info-icon" aria-hidden="true">ⓘ</span></button>' +
+      '<div id="klima-kpi-kontext-' + n + '" class="collapse"><div class="klima-kpi-kontext text-muted small">' + escapeHtml(t) + '</div></div>'
+    );
+  };
+
   enclosingHtmlDivElement.innerHTML = `
     <div class="container-fluid px-0">
       <h2 class="mb-3">${titel}</h2>
+      <div id="klima-datenstand" class="text-muted small mb-3"></div>
 
       <!-- KPI-Zeile 1 -->
       <div class="row g-3 mb-2">
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm">
           <div class="card-body py-2"><div class="text-muted small">Messtage</div>
-          <div class="fs-3 fw-bold" id="kpi-tage">–</div></div></div></div>
+          <div class="fs-3 fw-bold" id="kpi-tage">–</div>${kk(1)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm">
           <div class="card-body py-2"><div class="text-muted small">Ø Temperatur</div>
-          <div class="fs-3 fw-bold" id="kpi-temp-avg">–</div></div></div></div>
+          <div class="fs-3 fw-bold" id="kpi-temp-avg">–</div>${kk(2)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm bg-danger bg-opacity-10">
           <div class="card-body py-2"><div class="text-muted small">Max. Temperatur</div>
-          <div class="fs-3 fw-bold text-danger" id="kpi-temp-max">–</div></div></div></div>
+          <div class="fs-3 fw-bold text-danger" id="kpi-temp-max">–</div>${kk(3)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm bg-primary bg-opacity-10">
           <div class="card-body py-2"><div class="text-muted small">Gesamtregen</div>
-          <div class="fs-3 fw-bold text-primary" id="kpi-regen">–</div></div></div></div>
+          <div class="fs-3 fw-bold text-primary" id="kpi-regen">–</div>${kk(4)}</div></div></div>
       </div>
 
       <!-- KPI-Zeile 2 -->
       <div class="row g-3 mb-4">
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm bg-success bg-opacity-10">
           <div class="card-body py-2"><div class="text-muted small">Max. Windböe</div>
-          <div class="fs-3 fw-bold text-success" id="kpi-wind-max">–</div></div></div></div>
+          <div class="fs-3 fw-bold text-success" id="kpi-wind-max">–</div>${kk(5)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm">
           <div class="card-body py-2"><div class="text-muted small">Ø Luftdruck</div>
-          <div class="fs-3 fw-bold" id="kpi-druck">–</div></div></div></div>
+          <div class="fs-3 fw-bold" id="kpi-druck">–</div>${kk(6)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm">
           <div class="card-body py-2"><div class="text-muted small">Ø Luftfeuchte</div>
-          <div class="fs-3 fw-bold" id="kpi-feuchte">–</div></div></div></div>
+          <div class="fs-3 fw-bold" id="kpi-feuchte">–</div>${kk(7)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm bg-warning bg-opacity-10">
           <div class="card-body py-2"><div class="text-muted small">Sonnenschein ges.</div>
-          <div class="fs-3 fw-bold text-warning" id="kpi-sonne">–</div></div></div></div>
+          <div class="fs-3 fw-bold text-warning" id="kpi-sonne">–</div>${kk(8)}</div></div></div>
       </div>
 
       <!-- Filter -->
@@ -143,6 +153,9 @@ function app(configdata = {}, enclosingHtmlDivElement) {
           <button class="btn btn-outline-secondary btn-sm" id="btn-next">Weiter ›</button>
         </div>
       </div>
+
+      ${renderMethodikbox()}
+      ${renderWeitereInfos()}
     </div>`;
 
   // ── State ──────────────────────────────────────────────────────────
@@ -151,6 +164,66 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   let currentPage = 0;
   const PAGE_SIZE = 25;
   const charts = {};
+
+  // ── Schale-4: Datenfrische, Methodikbox & weiterführende Links ──────
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  function renderDatenstand() {
+    const el = document.getElementById("klima-datenstand");
+    if (!el) return;
+    let newest = "";
+    for (const r of allRows) {
+      const d = String(r[COL.datum] || "").substring(0, 10);
+      if (d && d > newest) newest = d;
+    }
+    if (!newest) {
+      el.textContent = "";
+      return;
+    }
+    const p = newest.split("-");
+    const disp = p.length === 3 ? p[2] + "." + p[1] + "." + p[0] : newest;
+    el.textContent = "Letzte Messung: " + disp;
+  }
+
+  function renderMethodikbox() {
+    const hinweis = String(configdata.datenquelleHinweis || "").trim();
+    const stand = String(configdata.datenStand || "").trim();
+    if (!hinweis && !stand) return "";
+    const standHtml = stand
+      ? '<p class="text-muted small mb-2">' + escapeHtml(stand) + "</p>"
+      : "";
+    return (
+      '<div class="card shadow-sm mt-4"><div class="card-body">' +
+      '<button class="klima-methodik-toggle btn btn-link text-decoration-none d-flex w-100 justify-content-between align-items-center p-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#klima-methodik-body" aria-expanded="false" aria-controls="klima-methodik-body">' +
+      '<h5 class="card-title mb-0">Methodik &amp; Datenquelle</h5>' +
+      '<span class="klima-methodik-chevron" aria-hidden="true">&#9662;</span>' +
+      "</button>" +
+      '<div id="klima-methodik-body" class="collapse mt-2">' +
+      standHtml +
+      hinweis +
+      "</div>" +
+      "</div></div>"
+    );
+  }
+
+  function renderWeitereInfos() {
+    const links = String(configdata.weiterfuehrendeLinks || "").trim();
+    if (!links) return "";
+    return (
+      '<div class="card shadow-sm mt-4"><div class="card-body">' +
+      '<h5 class="card-title">Weitere Informationen</h5>' +
+      "<div>" +
+      links +
+      "</div></div></div>"
+    );
+  }
   const fullPath = window.location.pathname.replace(/\/+$/, "");
 
   function setStatus(msg) {
@@ -275,6 +348,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     try {
       const csvText = await fetchCsvText(apiurl);
       allRows = parseCsv(csvText);
+      renderDatenstand();
       setStatus(allRows.length + " Datensätze geladen");
       buildMonatFilter();
       applyFilter();

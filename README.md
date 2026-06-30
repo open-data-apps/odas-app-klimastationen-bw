@@ -30,6 +30,10 @@ Die Konfiguration wird vom ODAS geladen.
 
 Die Klimadaten werden über die konfigurierte apiurl geladen.
 
+## Für wen ist diese App?
+
+Diese App richtet sich an Bürgerinnen und Bürger in Karlsruhe und der Region, an die Stadtverwaltung sowie an alle, die sich für Wetter und Klima interessieren. Voraussetzung ist kein spezielles Datenwissen – wer die Wetter- und Klimaentwicklung der Region nachvollziehen möchte, kann die App direkt nutzen.
+
 ## Entwicklung
 
     $ make build up
