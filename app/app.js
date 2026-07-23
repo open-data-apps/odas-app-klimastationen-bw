@@ -1,10 +1,79 @@
+function isOdasProxyEnabled(configdata = {}) {
+  return String(configdata.proxyAktiv || "").trim().toLowerCase() === "ja";
+}
+
 function extractPathFromUrl(url) {
   try {
-    const u = new URL(url);
-    return u.pathname + u.search;
-  } catch (e) {
-    return url;
+    const parsedUrl = new URL(url);
+    return parsedUrl.pathname + parsedUrl.search;
+  } catch (_error) {
+    return String(url || "");
   }
+}
+
+function getOdasAppBasePath(pathname) {
+  let appPath =
+    pathname === undefined
+      ? typeof window !== "undefined"
+        ? window.location.pathname
+        : "/"
+      : String(pathname || "/");
+
+  if (!appPath.endsWith("/")) {
+    const lastSlashIndex = appPath.lastIndexOf("/");
+    const lastSegment = appPath.substring(lastSlashIndex + 1);
+    if (lastSegment.includes(".")) {
+      appPath = appPath.substring(0, lastSlashIndex + 1);
+    }
+  }
+
+  return appPath.replace(/\/+$/, "");
+}
+
+function getOdasProxyEndpoint(targetUrl, pathname) {
+  const appPath = getOdasAppBasePath(pathname);
+  return `${appPath}/odp-data?path=${encodeURIComponent(
+    extractPathFromUrl(targetUrl),
+  )}`;
+}
+
+async function fetchViaOdasProxy(targetUrl) {
+  const response = await fetch(getOdasProxyEndpoint(targetUrl), {
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    throw new Error(`ODAS-Proxy-Fehler: HTTP ${response.status}`);
+  }
+
+  const proxyData = await response.json();
+  if (!proxyData || typeof proxyData.content !== "string") {
+    throw new Error("ODAS-Proxy-Antwort enthält keinen content-String.");
+  }
+
+  return proxyData.content;
+}
+
+async function fetchOdasResource(targetUrl, configdata = {}) {
+  if (isOdasProxyEnabled(configdata)) {
+    return fetchViaOdasProxy(targetUrl);
+  }
+
+  try {
+    const response = await fetch(targetUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    return response.text();
+  } catch (error) {
+    throw new Error(
+      `Direkter Datenabruf fehlgeschlagen (${error.message}). Bitte prüfen Sie die Daten-URL und die CORS-Freigabe der Datenquelle.`,
+    );
+  }
+}
+
+async function fetchOdasJson(targetUrl, configdata = {}) {
+  return JSON.parse(await fetchOdasResource(targetUrl, configdata));
 }
 
 function app(configdata = {}, enclosingHtmlDivElement) {
@@ -224,8 +293,6 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       "</div></div></div>"
     );
   }
-  const fullPath = window.location.pathname.replace(/\/+$/, "");
-
   function setStatus(msg) {
     const el = document.getElementById("status-text");
     if (el) el.textContent = msg;
@@ -264,38 +331,9 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     document.head.appendChild(s);
   }
 
-  // ── CSV über Proxy laden ───────────────────────────────────────────
+  // ── CSV laden: direkt oder ueber den ODAS-Proxy (proxyAktiv) ───────
   async function fetchCsvText(csvUrl) {
-    try {
-      const targetUrl = new URL(csvUrl, window.location.href);
-      if (targetUrl.origin === window.location.origin) {
-        const r = await fetch(targetUrl.toString());
-        if (r.ok) return await r.text();
-      }
-    } catch (e) {}
-
-    const csvPath = extractPathFromUrl(csvUrl);
-    const proxyUrls = [
-      `${fullPath}/odp-data?path=${encodeURIComponent(csvUrl)}`,
-      `${fullPath}/odp-data?path=${encodeURIComponent(csvPath)}`,
-    ];
-
-    for (const endpoint of proxyUrls) {
-      try {
-        const res = await fetch(endpoint, { method: "POST" });
-        if (!res.ok) continue;
-        const ct = (res.headers.get("content-type") || "").toLowerCase();
-        if (ct.includes("application/json")) {
-          const json = await res.json();
-          const body = json?.content || json?.data || json?.body || "";
-          if (typeof body === "string" && body.trim().length) return body;
-        } else {
-          const body = await res.text();
-          if (body.trim().length) return body;
-        }
-      } catch (e) {}
-    }
-    throw new Error("CSV konnte nicht geladen werden (CORS/Proxy).");
+    return fetchOdasResource(new URL(csvUrl, window.location.href).toString(), configdata);
   }
 
   // ── RFC-konformer CSV-Parser (behandelt quoted fields korrekt) ─────
