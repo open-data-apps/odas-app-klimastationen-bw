@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.8.0 - 2026-07-31
+- DOC: Standalone-Anleitung individualisiert (F-10) - `proxyAktiv` ist auf `nein` zu
+  **setzen** statt zu belassen; Austausch der Datenquelle als eigener Schritt ergaenzt
+- DOC: Standalone als eingeschraenkt gekennzeichnet - mit der mitgelieferten Quelle ist
+  die App in keiner Standalone-Konfiguration funktionsfaehig
+
 ## 1.7.0 - 2026-07-31
 - CHG: Platzhalter-Titel in der lokalen Konfiguration durch den echten App-Titel ersetzt
 
