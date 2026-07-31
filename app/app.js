@@ -124,7 +124,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
 
   enclosingHtmlDivElement.innerHTML = `
     <div class="container-fluid px-0">
-      <h2 class="mb-3">${titel}</h2>
+      <h2 class="mb-3">${escapeHtml(titel)}</h2>
       <div id="klima-datenstand" class="text-muted small mb-3"></div>
 
       <!-- KPI-Zeile 1 -->
@@ -475,7 +475,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       head.innerHTML =
         "<tr>" +
         allCols
-          .map((c) => `<th class="text-nowrap">${COL_LABELS[c] || c}</th>`)
+          .map((c) => `<th class="text-nowrap">${escapeHtml(COL_LABELS[c] || c)}</th>`)
           .join("") +
         "</tr>";
 
@@ -496,7 +496,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
                         : typeof val === "number"
                           ? val.toFixed(2)
                           : val || "";
-                    return `<td class="text-nowrap">${display}</td>`;
+                    return `<td class="text-nowrap">${escapeHtml(display)}</td>`;
                   })
                   .join("") +
                 "</tr>",
