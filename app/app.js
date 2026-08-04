@@ -326,7 +326,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       return;
     }
     const s = document.createElement("script");
-    s.src = "https://cdn.jsdelivr.net/npm/chart.js@4.4.9/dist/chart.umd.min.js";
+    s.src = "vendor/chartjs/chart.umd.min.js";
     s.onload = callback;
     document.head.appendChild(s);
   }
