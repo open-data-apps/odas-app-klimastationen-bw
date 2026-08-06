@@ -77,6 +77,7 @@ async function fetchOdasJson(targetUrl, configdata = {}) {
 }
 
 function app(configdata = {}, enclosingHtmlDivElement) {
+  const root = enclosingHtmlDivElement;
   const apiurl = configdata.apiurl || "";
   const titel = configdata.titel || "Wetterdaten Karlsruhe";
 
@@ -131,46 +132,46 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       <div class="row g-3 mb-2">
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm">
           <div class="card-body py-2"><div class="text-muted small">Messtage</div>
-          <div class="fs-3 fw-bold" id="kpi-tage">–</div>${kk(1)}</div></div></div>
+          <div class="fs-3 fw-bold" id="klima-kpi-tage">–</div>${kk(1)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm">
           <div class="card-body py-2"><div class="text-muted small">Ø Temperatur</div>
-          <div class="fs-3 fw-bold" id="kpi-temp-avg">–</div>${kk(2)}</div></div></div>
+          <div class="fs-3 fw-bold" id="klima-kpi-temp-avg">–</div>${kk(2)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm bg-danger bg-opacity-10">
           <div class="card-body py-2"><div class="text-muted small">Max. Temperatur</div>
-          <div class="fs-3 fw-bold text-danger" id="kpi-temp-max">–</div>${kk(3)}</div></div></div>
+          <div class="fs-3 fw-bold text-danger" id="klima-kpi-temp-max">–</div>${kk(3)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm bg-primary bg-opacity-10">
           <div class="card-body py-2"><div class="text-muted small">Gesamtregen</div>
-          <div class="fs-3 fw-bold text-primary" id="kpi-regen">–</div>${kk(4)}</div></div></div>
+          <div class="fs-3 fw-bold text-primary" id="klima-kpi-regen">–</div>${kk(4)}</div></div></div>
       </div>
 
       <!-- KPI-Zeile 2 -->
       <div class="row g-3 mb-4">
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm bg-success bg-opacity-10">
           <div class="card-body py-2"><div class="text-muted small">Max. Windböe</div>
-          <div class="fs-3 fw-bold text-success" id="kpi-wind-max">–</div>${kk(5)}</div></div></div>
+          <div class="fs-3 fw-bold text-success" id="klima-kpi-wind-max">–</div>${kk(5)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm">
           <div class="card-body py-2"><div class="text-muted small">Ø Luftdruck</div>
-          <div class="fs-3 fw-bold" id="kpi-druck">–</div>${kk(6)}</div></div></div>
+          <div class="fs-3 fw-bold" id="klima-kpi-druck">–</div>${kk(6)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm">
           <div class="card-body py-2"><div class="text-muted small">Ø Luftfeuchte</div>
-          <div class="fs-3 fw-bold" id="kpi-feuchte">–</div>${kk(7)}</div></div></div>
+          <div class="fs-3 fw-bold" id="klima-kpi-feuchte">–</div>${kk(7)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm bg-warning bg-opacity-10">
           <div class="card-body py-2"><div class="text-muted small">Sonnenschein ges.</div>
-          <div class="fs-3 fw-bold text-warning" id="kpi-sonne">–</div>${kk(8)}</div></div></div>
+          <div class="fs-3 fw-bold text-warning" id="klima-kpi-sonne">–</div>${kk(8)}</div></div></div>
       </div>
 
       <!-- Filter -->
       <div class="row g-2 mb-3">
         <div class="col-md-3">
-          <select class="form-select" id="filter-monat">
+          <select class="form-select" id="klima-filter-monat">
             <option value="">Alle Monate</option>
           </select>
         </div>
         <div class="col-md-2">
-          <button class="btn btn-outline-secondary w-100" id="btn-reset">Zurücksetzen</button>
+          <button class="btn btn-outline-secondary w-100" id="klima-btn-reset">Zurücksetzen</button>
         </div>
         <div class="col-md-7 text-end pt-2">
-          <span class="text-muted small" id="status-text"></span>
+          <span class="text-muted small" id="klima-status-text"></span>
         </div>
       </div>
 
@@ -187,16 +188,16 @@ function app(configdata = {}, enclosingHtmlDivElement) {
         <div class="card-body p-3">
           <div class="tab-content">
             <div class="tab-pane fade show active" id="tab-temp">
-              <div style="position:relative;height:280px;"><canvas id="chart-temp"></canvas></div>
+              <div style="position:relative;height:280px;"><canvas id="klima-chart-temp"></canvas></div>
             </div>
             <div class="tab-pane fade" id="tab-wind">
-              <div style="position:relative;height:280px;"><canvas id="chart-wind"></canvas></div>
+              <div style="position:relative;height:280px;"><canvas id="klima-chart-wind"></canvas></div>
             </div>
             <div class="tab-pane fade" id="tab-regen">
-              <div style="position:relative;height:280px;"><canvas id="chart-regen"></canvas></div>
+              <div style="position:relative;height:280px;"><canvas id="klima-chart-regen"></canvas></div>
             </div>
             <div class="tab-pane fade" id="tab-klima">
-              <div style="position:relative;height:280px;"><canvas id="chart-klima"></canvas></div>
+              <div style="position:relative;height:280px;"><canvas id="klima-chart-klima"></canvas></div>
             </div>
           </div>
         </div>
@@ -206,20 +207,20 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       <div class="card shadow-sm">
         <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
           <span>📋 Tagesdaten</span>
-          <span class="badge bg-secondary" id="record-count">0 Einträge</span>
+          <span class="badge bg-secondary" id="klima-record-count">0 Einträge</span>
         </div>
         <div class="card-body p-0">
           <div class="table-responsive">
             <table class="table table-striped table-hover table-sm mb-0 small">
-              <thead class="table-dark" id="tbl-head"></thead>
-              <tbody id="tbl-body"></tbody>
+              <thead class="table-dark" id="klima-tbl-head"></thead>
+              <tbody id="klima-tbl-body"></tbody>
             </table>
           </div>
         </div>
         <div class="card-footer d-flex justify-content-between align-items-center">
-          <button class="btn btn-outline-secondary btn-sm" id="btn-prev" disabled>‹ Zurück</button>
-          <span id="page-info" class="text-muted small"></span>
-          <button class="btn btn-outline-secondary btn-sm" id="btn-next">Weiter ›</button>
+          <button class="btn btn-outline-secondary btn-sm" id="klima-btn-prev" disabled>‹ Zurück</button>
+          <span id="klima-page-info" class="text-muted small"></span>
+          <button class="btn btn-outline-secondary btn-sm" id="klima-btn-next">Weiter ›</button>
         </div>
       </div>
 
@@ -245,7 +246,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   }
 
   function renderDatenstand() {
-    const el = document.getElementById("klima-datenstand");
+    const el = root.querySelector("#klima-datenstand");
     if (!el) return;
     let newest = "";
     for (const r of allRows) {
@@ -294,7 +295,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     );
   }
   function setStatus(msg) {
-    const el = document.getElementById("status-text");
+    const el = root.querySelector("#klima-status-text");
     if (el) el.textContent = msg;
   }
 
@@ -405,7 +406,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       ),
     ].sort();
 
-    const sel = document.getElementById("filter-monat");
+    const sel = root.querySelector("#klima-filter-monat");
     if (!sel) return;
     sel.innerHTML = '<option value="">Alle Monate</option>';
     const namen = [
@@ -433,11 +434,11 @@ function app(configdata = {}, enclosingHtmlDivElement) {
 
   // ── Filter anwenden ────────────────────────────────────────────────
   function applyFilter() {
-    const monat = (document.getElementById("filter-monat") || {}).value || "";
+    const monat = (root.querySelector("#klima-filter-monat") || {}).value || "";
     filtered = monat
       ? allRows.filter((r) => String(r[COL.datum] || "").startsWith(monat))
       : allRows.slice();
-    const rc = document.getElementById("record-count");
+    const rc = root.querySelector("#klima-record-count");
     if (rc) rc.textContent = filtered.length + " Einträge";
     updateKPIs(filtered);
     renderTable(filtered, 0);
@@ -447,13 +448,13 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   // ── KPIs ───────────────────────────────────────────────────────────
   function updateKPIs(rows) {
     function set(id, val, unit, decimals = 1) {
-      const el = document.getElementById(id);
+      const el = root.querySelector("#klima-" + id);
       if (el)
         el.textContent = isNaN(val)
           ? "–"
           : val.toFixed(decimals) + "\u00a0" + unit;
     }
-    const elTage = document.getElementById("kpi-tage");
+    const elTage = root.querySelector("#klima-kpi-tage");
     if (elTage) elTage.textContent = rows.length;
 
     set("kpi-temp-avg", avg(rows, COL.tempAvg), "°C");
@@ -470,7 +471,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     currentPage = page;
     const allCols = Object.values(COL);
 
-    const head = document.getElementById("tbl-head");
+    const head = root.querySelector("#klima-tbl-head");
     if (head)
       head.innerHTML =
         "<tr>" +
@@ -480,7 +481,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
         "</tr>";
 
     const slice = rows.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
-    const body = document.getElementById("tbl-body");
+    const body = root.querySelector("#klima-tbl-body");
     if (body)
       body.innerHTML = slice.length
         ? slice
@@ -505,10 +506,10 @@ function app(configdata = {}, enclosingHtmlDivElement) {
         : '<tr><td colspan="13" class="text-center text-muted py-3">Keine Daten</td></tr>';
 
     const total = Math.ceil(rows.length / PAGE_SIZE);
-    const pi = document.getElementById("page-info");
+    const pi = root.querySelector("#klima-page-info");
     if (pi) pi.textContent = `Seite ${page + 1} von ${Math.max(1, total)}`;
-    const bp = document.getElementById("btn-prev");
-    const bn = document.getElementById("btn-next");
+    const bp = root.querySelector("#klima-btn-prev");
+    const bn = root.querySelector("#klima-btn-next");
     if (bp) bp.disabled = page === 0;
     if (bn) bn.disabled = (page + 1) * PAGE_SIZE >= rows.length;
   }
@@ -533,7 +534,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
           charts[id].destroy();
           delete charts[id];
         }
-        const canvas = document.getElementById(id);
+        const canvas = root.querySelector("#klima-" + id);
         if (!canvas) return;
         charts[id] = new Chart(canvas, config);
       }
@@ -725,7 +726,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       });
 
       // Resize wenn versteckter Tab eingeblendet wird
-      document.querySelectorAll('[data-bs-toggle="tab"]').forEach((btn) => {
+      root.querySelectorAll('[data-bs-toggle="tab"]').forEach((btn) => {
         btn.addEventListener("shown.bs.tab", () => {
           Object.values(charts).forEach((c) => {
             if (c) c.resize();
@@ -736,24 +737,24 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   }
 
   // ── Events ─────────────────────────────────────────────────────────
-  const filterEl = document.getElementById("filter-monat");
+  const filterEl = root.querySelector("#klima-filter-monat");
   if (filterEl) filterEl.addEventListener("change", applyFilter);
 
-  const resetEl = document.getElementById("btn-reset");
+  const resetEl = root.querySelector("#klima-btn-reset");
   if (resetEl)
     resetEl.addEventListener("click", () => {
-      const m = document.getElementById("filter-monat");
+      const m = root.querySelector("#klima-filter-monat");
       if (m) m.value = "";
       applyFilter();
     });
 
-  const prevEl = document.getElementById("btn-prev");
+  const prevEl = root.querySelector("#klima-btn-prev");
   if (prevEl)
     prevEl.addEventListener("click", () =>
       renderTable(filtered, currentPage - 1),
     );
 
-  const nextEl = document.getElementById("btn-next");
+  const nextEl = root.querySelector("#klima-btn-next");
   if (nextEl)
     nextEl.addEventListener("click", () =>
       renderTable(filtered, currentPage + 1),
