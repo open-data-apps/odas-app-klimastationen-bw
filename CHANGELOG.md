@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.17.0 - 2026-08-08
+- CHG: Bootstrap-Ziele instanzeindeutig (F-32): Tab-Ziele (`#tab-temp` … `#tab-klima`) auf Portfolio-Stil umgestellt (`#klima-tab-<tab>-<klimaUid>`) und KPI-Kontext- sowie Methodik-Ziele (`#klima-kpi-kontext-<n>`, `#klima-methodik-body`) um eine Instanzkennung ergänzt — mehrere Instanzen derselben App auf einer Seite klappen ihre Panels und wechseln ihre Tabs unabhängig; die CSS-Klassen `klima-kpi-info-toggle`/`klima-methodik-toggle` bleiben unverändert
+
 ## 1.16.0 - 2026-08-07
 - FIX: Datumsspalte wird nicht mehr als Zahl gekonvertiert (Bestandsfehler im CSV-Parser, beim Browsernachweis Tranche 3 gefunden): `parseFloat("2026-02-13 00:00:00")` ergab 2026, dadurch zeigte die Tabelle nur das Jahr und der Monatsfilter blieb leer. Nur vollständig numerische Werte werden zu Zahlen; der Monatsfilter ist wieder befüllt und filtert.
 

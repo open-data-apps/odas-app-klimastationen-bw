@@ -76,7 +76,10 @@ async function fetchOdasJson(targetUrl, configdata = {}) {
   return JSON.parse(await fetchOdasResource(targetUrl, configdata));
 }
 
+let klimaInstanzZaehler = 0;
+
 function app(configdata = {}, enclosingHtmlDivElement) {
+  const klimaUid = "i" + ++klimaInstanzZaehler;
   const root = enclosingHtmlDivElement;
   const apiurl = configdata.apiurl || "";
   const titel = configdata.titel || "Wetterdaten Karlsruhe";
@@ -118,8 +121,8 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     const t = String(configdata["kpiKontext" + n] || "").trim();
     if (!t) return '';
     return (
-      '<button class="klima-kpi-info-toggle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#klima-kpi-kontext-' + n + '" aria-expanded="false" aria-controls="klima-kpi-kontext-' + n + '" aria-label="Erklärung zu diesem Wert"><span class="klima-kpi-info-icon" aria-hidden="true">ⓘ</span></button>' +
-      '<div id="klima-kpi-kontext-' + n + '" class="collapse"><div class="klima-kpi-kontext text-muted small">' + escapeHtml(t) + '</div></div>'
+      '<button class="klima-kpi-info-toggle collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#klima-kpi-kontext-' + n + '-' + klimaUid + '" aria-expanded="false" aria-controls="klima-kpi-kontext-' + n + '-' + klimaUid + '" aria-label="Erklärung zu diesem Wert"><span class="klima-kpi-info-icon" aria-hidden="true">ⓘ</span></button>' +
+      '<div id="klima-kpi-kontext-' + n + '-' + klimaUid + '" class="collapse"><div class="klima-kpi-kontext text-muted small">' + escapeHtml(t) + '</div></div>'
     );
   };
 
@@ -179,24 +182,24 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       <div class="card shadow-sm mb-3">
         <div class="card-header p-0">
           <ul class="nav nav-tabs card-header-tabs" id="chart-tabs">
-            <li class="nav-item"><button class="nav-link active px-3 py-2" data-bs-toggle="tab" data-bs-target="#tab-temp">🌡️ Temperatur</button></li>
-            <li class="nav-item"><button class="nav-link px-3 py-2" data-bs-toggle="tab" data-bs-target="#tab-wind">💨 Wind</button></li>
-            <li class="nav-item"><button class="nav-link px-3 py-2" data-bs-toggle="tab" data-bs-target="#tab-regen">🌧️ Niederschlag</button></li>
-            <li class="nav-item"><button class="nav-link px-3 py-2" data-bs-toggle="tab" data-bs-target="#tab-klima">📊 Klima</button></li>
+            <li class="nav-item"><button class="nav-link active px-3 py-2" data-bs-toggle="tab" data-bs-target="#klima-tab-temp-${klimaUid}">🌡️ Temperatur</button></li>
+            <li class="nav-item"><button class="nav-link px-3 py-2" data-bs-toggle="tab" data-bs-target="#klima-tab-wind-${klimaUid}">💨 Wind</button></li>
+            <li class="nav-item"><button class="nav-link px-3 py-2" data-bs-toggle="tab" data-bs-target="#klima-tab-regen-${klimaUid}">🌧️ Niederschlag</button></li>
+            <li class="nav-item"><button class="nav-link px-3 py-2" data-bs-toggle="tab" data-bs-target="#klima-tab-klima-${klimaUid}">📊 Klima</button></li>
           </ul>
         </div>
         <div class="card-body p-3">
           <div class="tab-content">
-            <div class="tab-pane fade show active" id="tab-temp">
+            <div class="tab-pane fade show active" id="klima-tab-temp-${klimaUid}">
               <div style="position:relative;height:280px;"><canvas id="klima-chart-temp"></canvas></div>
             </div>
-            <div class="tab-pane fade" id="tab-wind">
+            <div class="tab-pane fade" id="klima-tab-wind-${klimaUid}">
               <div style="position:relative;height:280px;"><canvas id="klima-chart-wind"></canvas></div>
             </div>
-            <div class="tab-pane fade" id="tab-regen">
+            <div class="tab-pane fade" id="klima-tab-regen-${klimaUid}">
               <div style="position:relative;height:280px;"><canvas id="klima-chart-regen"></canvas></div>
             </div>
-            <div class="tab-pane fade" id="tab-klima">
+            <div class="tab-pane fade" id="klima-tab-klima-${klimaUid}">
               <div style="position:relative;height:280px;"><canvas id="klima-chart-klima"></canvas></div>
             </div>
           </div>
@@ -271,11 +274,11 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       : "";
     return (
       '<div class="card shadow-sm mt-4"><div class="card-body">' +
-      '<button class="klima-methodik-toggle btn btn-link text-decoration-none d-flex w-100 justify-content-between align-items-center p-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#klima-methodik-body" aria-expanded="false" aria-controls="klima-methodik-body">' +
+      '<button class="klima-methodik-toggle btn btn-link text-decoration-none d-flex w-100 justify-content-between align-items-center p-0 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#klima-methodik-body-' + klimaUid + '" aria-expanded="false" aria-controls="klima-methodik-body-' + klimaUid + '">' +
       '<h5 class="card-title mb-0">Methodik &amp; Datenquelle</h5>' +
       '<span class="klima-methodik-chevron" aria-hidden="true">&#9662;</span>' +
       "</button>" +
-      '<div id="klima-methodik-body" class="collapse mt-2">' +
+      '<div id="klima-methodik-body-' + klimaUid + '" class="collapse mt-2">' +
       standHtml +
       hinweis +
       "</div>" +
