@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.16.0 - 2026-08-07
+- FIX: Datumsspalte wird nicht mehr als Zahl gekonvertiert (Bestandsfehler im CSV-Parser, beim Browsernachweis Tranche 3 gefunden): `parseFloat("2026-02-13 00:00:00")` ergab 2026, dadurch zeigte die Tabelle nur das Jahr und der Monatsfilter blieb leer. Nur vollständig numerische Werte werden zu Zahlen; der Monatsfilter ist wieder befüllt und filtert.
+
 ## 1.15.0 - 2026-08-06
 - CHG: DOM-Zugriffe auf den App-Container gescopt (F-25, Tranche 3): alle Elemente der App werden über den App-Container (root.querySelector) angesprochen statt über document; unpräfixierte IDs mit `klima-`-Präfix versehen (`status-text` → `klima-status-text`, `filter-monat` → `klima-filter-monat`, `record-count` → `klima-record-count`, `kpi-tage` → `klima-kpi-tage`, `kpi-temp-avg` → `klima-kpi-temp-avg`, `kpi-temp-max` → `klima-kpi-temp-max`, `kpi-regen` → `klima-kpi-regen`, `kpi-wind-max` → `klima-kpi-wind-max`, `kpi-druck` → `klima-kpi-druck`, `kpi-feuchte` → `klima-kpi-feuchte`, `kpi-sonne` → `klima-kpi-sonne`, `tbl-head` → `klima-tbl-head`, `tbl-body` → `klima-tbl-body`, `page-info` → `klima-page-info`, `btn-prev` → `klima-btn-prev`, `btn-next` → `klima-btn-next`, `btn-reset` → `klima-btn-reset`, `chart-temp` → `klima-chart-temp`, `chart-wind` → `klima-chart-wind`, `chart-regen` → `klima-chart-regen`, `chart-klima` → `klima-chart-klima`); die Helper `set()` und `mkChart()` präfixieren ihre IDs an jeweils einer Stelle; der Tab-Wechsel-Selektor wird über den App-Container gescopt
 

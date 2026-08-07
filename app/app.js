@@ -368,8 +368,10 @@ function app(configdata = {}, enclosingHtmlDivElement) {
         const vals = parseRow(line);
         const obj = {};
         headers.forEach((h, i) => {
-          const num = parseFloat(vals[i]);
-          obj[h] = isNaN(num) ? vals[i] || "" : num;
+          const raw = String(vals[i] ?? "").trim();
+          const num = parseFloat(raw);
+          obj[h] =
+            !raw || String(num) !== raw ? vals[i] || "" : num;
         });
         return obj;
       })
