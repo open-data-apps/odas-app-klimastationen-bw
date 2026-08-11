@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.18.0 - 2026-08-11
+- FIX: CSV-Parsing auf PapaParse 5.4.1 umgestellt (F-40): `parseCsv` nutzt jetzt `Papa.parse` mit `header: true`, `skipEmptyLines: "greedy"` und Delimiter-Auto-Detect; gequotete Felder mit Zeilenumbruch werden RFC-4180-konform geparst; die Zahlen-Guard-Logik (nur vollständig numerische Werte werden zu Zahlen, Datumsspalten bleiben Text) bleibt unverändert; PapaParse-Fehler werden sichtbar in der Statuszeile gemeldet
+
 ## 1.17.0 - 2026-08-08
 - CHG: Bootstrap-Ziele instanzeindeutig (F-32): Tab-Ziele (`#tab-temp` … `#tab-klima`) auf Portfolio-Stil umgestellt (`#klima-tab-<tab>-<klimaUid>`) und KPI-Kontext- sowie Methodik-Ziele (`#klima-kpi-kontext-<n>`, `#klima-methodik-body`) um eine Instanzkennung ergänzt — mehrere Instanzen derselben App auf einer Seite klappen ihre Panels und wechseln ihre Tabs unabhängig; die CSS-Klassen `klima-kpi-info-toggle`/`klima-methodik-toggle` bleiben unverändert
 

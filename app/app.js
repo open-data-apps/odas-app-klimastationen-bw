@@ -76,6 +76,31 @@ async function fetchOdasJson(targetUrl, configdata = {}) {
   return JSON.parse(await fetchOdasResource(targetUrl, configdata));
 }
 
+// PapaParse (CSV-Parsing) dynamisch aus app/vendor laden; Promise-basiert.
+function ensurePapaparse() {
+  return new Promise((resolve, reject) => {
+    if (window.Papa) {
+      resolve();
+      return;
+    }
+    const vorhanden = document.getElementById("papaparse-script");
+    if (vorhanden) {
+      vorhanden.addEventListener("load", () => resolve());
+      vorhanden.addEventListener("error", () =>
+        reject(new Error("PapaParse konnte nicht geladen werden.")),
+      );
+      return;
+    }
+    const script = document.createElement("script");
+    script.id = "papaparse-script";
+    script.src = "vendor/papaparse/papaparse.min.js";
+    script.onload = () => resolve();
+    script.onerror = () =>
+      reject(new Error("PapaParse konnte nicht geladen werden."));
+    document.head.appendChild(script);
+  });
+}
+
 let klimaInstanzZaehler = 0;
 
 function app(configdata = {}, enclosingHtmlDivElement) {
@@ -340,45 +365,28 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     return fetchOdasResource(new URL(csvUrl, window.location.href).toString(), configdata);
   }
 
-  // ── RFC-konformer CSV-Parser (behandelt quoted fields korrekt) ─────
+  // ── RFC-konformer CSV-Parser (PapaParse, quoted fields korrekt) ──────
   function parseCsv(csvText) {
-    function parseRow(line) {
-      const result = [];
-      let inQuote = false;
-      let current = "";
-      for (let i = 0; i < line.length; i++) {
-        const c = line[i];
-        if (c === '"') {
-          inQuote = !inQuote;
-        } else if (c === "," && !inQuote) {
-          result.push(current.trim());
-          current = "";
-        } else {
-          current += c;
-        }
-      }
-      result.push(current.trim());
-      return result;
+    const result = Papa.parse(csvText, {
+      header: true,
+      skipEmptyLines: "greedy",
+      transformHeader: (h) => h.trim(),
+    });
+    if (result.errors && result.errors.length > 0) {
+      const err = result.errors[0];
+      throw new Error(
+        `CSV-Parsing-Fehler (Zeile ${err.row + 1}): ${err.message}`,
+      );
     }
-
-    const lines = csvText.trim().split(/\r?\n/);
-    const headers = parseRow(lines[0]);
-
-    return lines
-      .slice(1)
-      .map((line) => {
-        if (!line.trim()) return null;
-        const vals = parseRow(line);
-        const obj = {};
-        headers.forEach((h, i) => {
-          const raw = String(vals[i] ?? "").trim();
-          const num = parseFloat(raw);
-          obj[h] =
-            !raw || String(num) !== raw ? vals[i] || "" : num;
-        });
-        return obj;
-      })
-      .filter(Boolean);
+    return result.data.map((row) => {
+      const obj = {};
+      Object.keys(row).forEach((h) => {
+        const raw = String(row[h] ?? "").trim();
+        const num = parseFloat(raw);
+        obj[h] = !raw || String(num) !== raw ? raw : num;
+      });
+      return obj;
+    });
   }
 
   // ── Daten laden ────────────────────────────────────────────────────
@@ -391,6 +399,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     setStatus("Lade Daten …");
     try {
       const csvText = await fetchCsvText(apiurl);
+      await ensurePapaparse();
       allRows = parseCsv(csvText);
       renderDatenstand();
       setStatus(allRows.length + " Datensätze geladen");
