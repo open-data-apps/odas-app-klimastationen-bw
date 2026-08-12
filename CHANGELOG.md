@@ -1,5 +1,9 @@
 # Changelog
 
+
+## 1.19.0 - 2026-08-12
+- FIX: `app/index.html` auf den Template-Stand (F-47): Datei byte-gleich aus `oda-generic` übernommen — gültiges HTML, deutsche ARIA-Labels, Footer im Body; Titel und Fußzeile bleiben Platzhalter und werden zur Laufzeit aus der Instanz-Config überschrieben
+
 ## 1.18.0 - 2026-08-11
 - FIX: CSV-Parsing auf PapaParse 5.4.1 umgestellt (F-40): `parseCsv` nutzt jetzt `Papa.parse` mit `header: true`, `skipEmptyLines: "greedy"` und Delimiter-Auto-Detect; gequotete Felder mit Zeilenumbruch werden RFC-4180-konform geparst; die Zahlen-Guard-Logik (nur vollständig numerische Werte werden zu Zahlen, Datumsspalten bleiben Text) bleibt unverändert; PapaParse-Fehler werden sichtbar in der Statuszeile gemeldet
 
