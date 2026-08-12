@@ -49,6 +49,7 @@
   "instanz-config": {
     "seitentitel": {
       "label": "Seitentitel",
+      "category": "general",
       "hilfe": "Der Seitentitel wird im Browser-Tab der App angezeigt",
       "default": "Klimastationen",
       "format": {
@@ -59,6 +60,7 @@
     },
     "titel": {
       "label": "Titel",
+      "category": "general",
       "hilfe": "Der Titel wird in der Titelzeile der App angezeigt",
       "default": "Klimastationen",
       "format": {
@@ -69,6 +71,7 @@
     },
     "icon": {
       "label": "App-Icon",
+      "category": "general",
       "hilfe": "Das Icon wird links oben in der Titelzeile angezeigt",
       "default": "{{{odp.logo}}}",
       "format": {
@@ -80,6 +83,7 @@
     },
     "kontakt": {
       "label": "Kontakt",
+      "category": "contact-legal",
       "hilfe": "Der Text wird im Menüpunkt 'Kontakt' anzeigt",
       "format": {
         "typ": "markdown"
@@ -96,6 +100,7 @@
     },
     "beschreibung": {
       "label": "Beschreibung",
+      "category": "content",
       "hilfe": "Der Text wird im Menüpunkt 'Über diese App' angezeigt",
       "format": {
         "typ": "markdown"
@@ -121,6 +126,7 @@
     },
     "impressum": {
       "label": "Impressum",
+      "category": "contact-legal",
       "hilfe": "Der Text wird im Menüpunkt 'Impressum' anzeigt",
       "format": {
         "typ": "markdown"
@@ -140,6 +146,7 @@
     },
     "datenschutz": {
       "label": "Datenschutz",
+      "category": "contact-legal",
       "hilfe": "Der Text wird im Menüpunkt 'Datenschutz' anzeigt",
       "format": {
         "typ": "markdown"
@@ -154,6 +161,7 @@
     },
     "urlDaten": {
       "label": "URL zum Datensatz im ODP",
+      "category": "datasource",
       "hilfe": "Der Datensatz im Open Data Portal mit den Daten der Klimastationen App",
       "format": {
         "typ": "url"
@@ -164,6 +172,7 @@
     },
     "fusszeile": {
       "label": "Fußzeile",
+      "category": "contact-legal",
       "hilfe": "Wird auf der Website unten in der Fusszeile angezeigt.",
       "format": {
         "typ": "string",
@@ -174,6 +183,7 @@
     },
     "proxyAktiv": {
       "label": "ODAS-Proxy aktivieren",
+      "category": "datasource",
       "hilfe": "Mit ja werden Datenabrufe über den ODAS-Proxy gesendet. Die konfigurierte Datenquelle (web1.karlsruhe.de) sendet keinen CORS-Header, deshalb ist ja hier der Standard. Nur mit einer CORS-freigegebenen Datenquelle kann auf nein umgestellt und die App standalone betrieben werden.",
       "default": "ja",
       "format": {
@@ -187,6 +197,7 @@
     },
     "apiurl": {
       "label": "URL zu den Daten",
+      "category": "datasource",
       "hilfe": "Von dieser URL zum Datensatz werden die Ressourcen bezogen",
       "format": {
         "typ": "url",
@@ -198,6 +209,7 @@
     },
     "weiterfuehrendeLinks": {
       "label": "Weiterführende Links",
+      "category": "content",
       "hilfe": "Verwandte Datensätze / Hintergrundquellen (HTML/Markdown). Leer = ausgeblendet.",
       "format": {
         "typ": "markdown"
@@ -207,6 +219,7 @@
     },
     "datenquelleHinweis": {
       "label": "Methodik / Datenquelle-Hinweis",
+      "category": "content",
       "hilfe": "Herkunft, Erhebungsmethode und Limitierungen (HTML/Markdown). Leer = ausgeblendet.",
       "format": {
         "typ": "markdown"
@@ -216,6 +229,7 @@
     },
     "datenStand": {
       "label": "Datenstand",
+      "category": "content",
       "hilfe": "Freitext-Hinweis zum Stand der Daten. Leer = ausgeblendet.",
       "format": {
         "typ": "string"
@@ -225,6 +239,7 @@
     },
     "kpiKontext1": {
       "label": "KPI-Erklärung: Messtage",
+      "category": "metrics",
       "hilfe": "Erklärtext unter dem KPI 'Messtage'. Leer = ausgeblendet.",
       "format": {
         "typ": "string"
@@ -234,6 +249,7 @@
     },
     "kpiKontext2": {
       "label": "KPI-Erklärung: Ø Temperatur",
+      "category": "metrics",
       "hilfe": "Erklärtext unter dem KPI 'Ø Temperatur'. Leer = ausgeblendet.",
       "format": {
         "typ": "string"
@@ -243,6 +259,7 @@
     },
     "kpiKontext3": {
       "label": "KPI-Erklärung: Max. Temperatur",
+      "category": "metrics",
       "hilfe": "Erklärtext unter dem KPI 'Max. Temperatur'. Leer = ausgeblendet.",
       "format": {
         "typ": "string"
@@ -252,6 +269,7 @@
     },
     "kpiKontext4": {
       "label": "KPI-Erklärung: Gesamtregen",
+      "category": "metrics",
       "hilfe": "Erklärtext unter dem KPI 'Gesamtregen'. Leer = ausgeblendet.",
       "format": {
         "typ": "string"
@@ -261,6 +279,7 @@
     },
     "kpiKontext5": {
       "label": "KPI-Erklärung: Max. Windböe",
+      "category": "metrics",
       "hilfe": "Erklärtext unter dem KPI 'Max. Windböe'. Leer = ausgeblendet.",
       "format": {
         "typ": "string"
@@ -270,6 +289,7 @@
     },
     "kpiKontext6": {
       "label": "KPI-Erklärung: Ø Luftdruck",
+      "category": "metrics",
       "hilfe": "Erklärtext unter dem KPI 'Ø Luftdruck'. Leer = ausgeblendet.",
       "format": {
         "typ": "string"
@@ -279,6 +299,7 @@
     },
     "kpiKontext7": {
       "label": "KPI-Erklärung: Ø Luftfeuchte",
+      "category": "metrics",
       "hilfe": "Erklärtext unter dem KPI 'Ø Luftfeuchte'. Leer = ausgeblendet.",
       "format": {
         "typ": "string"
@@ -288,6 +309,7 @@
     },
     "kpiKontext8": {
       "label": "KPI-Erklärung: Sonnenschein ges.",
+      "category": "metrics",
       "hilfe": "Erklärtext unter dem KPI 'Sonnenschein gesamt'. Leer = ausgeblendet.",
       "format": {
         "typ": "string"
@@ -297,6 +319,7 @@
     },
     "sprache": {
       "label": "Sprache der App",
+      "category": "general",
       "hilfe": "Angabe der App-Sprache",
       "default": "de",
       "format": {
@@ -309,6 +332,7 @@
     },
     "brandingCSS": {
       "label": "Zusätzliches Branding-CSS",
+      "category": "advanced",
       "hilfe": "Optionaler CSS-Code für die konkrete App-Instanz.",
       "default": "",
       "format": {
@@ -319,6 +343,7 @@
     },
     "brandingCSSFile": {
       "label": "Branding-CSS-Datei",
+      "category": "advanced",
       "hilfe": "Optionale URL zu einer zusätzlichen CSS-Datei für die konkrete App-Instanz.",
       "default": "",
       "format": {
