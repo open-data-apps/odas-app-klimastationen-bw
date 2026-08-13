@@ -263,6 +263,17 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   const PAGE_SIZE = 25;
   const charts = {};
 
+  // Instanz-Teardown synchron registrieren (VOR jedem Async-Start/loadData):
+  // markiert disposed und raeumt alle in `charts` gehaltenen Chart-Instanzen ab.
+  let disposed = false;
+  klimaCleanups.set(root, () => {
+    disposed = true;
+    Object.values(charts).forEach((c) => {
+      if (c) c.destroy();
+    });
+    for (const k in charts) delete charts[k];
+  });
+
   // ── Schale-4: Datenfrische, Methodikbox & weiterführende Links ──────
   function escapeHtml(value) {
     return String(value ?? "")
@@ -399,13 +410,16 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     setStatus("Lade Daten …");
     try {
       const csvText = await fetchCsvText(apiurl);
+      if (disposed) return;
       await ensurePapaparse();
+      if (disposed) return;
       allRows = parseCsv(csvText);
       renderDatenstand();
       setStatus(allRows.length + " Datensätze geladen");
       buildMonatFilter();
       applyFilter();
     } catch (e) {
+      if (disposed) return;
       setStatus("Fehler: " + e.message);
     }
   }
@@ -531,6 +545,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   // ── Charts ─────────────────────────────────────────────────────────
   function renderCharts(rows) {
     loadChartJs(() => {
+      if (disposed) return;
       const labels = rows.map((r) =>
         String(r[COL.datum] || "").substring(0, 10),
       );
@@ -777,6 +792,23 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   // ── Start ──────────────────────────────────────────────────────────
   loadData();
   return null;
+}
+
+// ── Lifecycle: instanzweises Cleanup-Register ─────────────────────────────
+// Top-Level-Registry (je App-Container eine Cleanup-Funktion). Wird von
+// onPageLeave (app/app-base.js ruft die Funktion beim Seitenwechsel exakt so
+// auf) vollstaendig durchlaufen und geleert.
+const klimaCleanups = new Map();
+
+function onPageLeave() {
+  klimaCleanups.forEach((cleanup) => {
+    try {
+      cleanup();
+    } catch (e) {
+      console.error("Klimastationen-Cleanup fehlgeschlagen:", e);
+    }
+  });
+  klimaCleanups.clear();
 }
 
 function addToHead() {}

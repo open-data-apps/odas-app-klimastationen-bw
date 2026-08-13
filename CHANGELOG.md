@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 1.20.0 - 2026-08-13
+- FIX: Lifecycle-Ressourcen beim Seitenwechsel abgeräumt (F-57): `onPageLeave` räumt alle vier Chart-Instanzen per `.destroy()` ab (Cleanup-Registry je App-Container, robust gegen scheiternde Cleanups, wird nach dem Durchlauf geleert); verspätete Fetch-/PapaParse-/Chart.js-Fortsetzungen erzeugen nach dem Seitenwechsel keine Charts mehr und überschreiben weder Status noch DOM
+
 ## 1.19.0 - 2026-08-12
 - FIX: `app/index.html` auf den Template-Stand (F-47): Datei byte-gleich aus `oda-generic` übernommen — gültiges HTML, deutsche ARIA-Labels, Footer im Body; Titel und Fußzeile bleiben Platzhalter und werden zur Laufzeit aus der Instanz-Config überschrieben
 
