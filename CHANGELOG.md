@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 1.21.0 - 2026-08-17
+- **CHG:** `instanz-config`-`category`-Vokabular auf Deutsch umgestellt (`allgemein`, `beschreibung`, `datenherkunft`, `kontakt-rechtliches`, `sonstiges`); die entfallenen Kategorien `metrics` und `advanced` wurden auf `beschreibung` bzw. `sonstiges` verteilt
+
 ## 1.20.0 - 2026-08-13
 - FIX: Lifecycle-Ressourcen beim Seitenwechsel abgeräumt (F-57): `onPageLeave` räumt alle vier Chart-Instanzen per `.destroy()` ab (Cleanup-Registry je App-Container, robust gegen scheiternde Cleanups, wird nach dem Durchlauf geleert); verspätete Fetch-/PapaParse-/Chart.js-Fortsetzungen erzeugen nach dem Seitenwechsel keine Charts mehr und überschreiben weder Status noch DOM
 
