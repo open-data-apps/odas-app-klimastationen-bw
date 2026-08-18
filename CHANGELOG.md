@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 1.24.0 - 2026-08-18
+- `proxyAktiv`-Schalter entfernt (`app-package.json`, `odas-config/config.json`): Der ODAS-Proxy wird umgebaut und funktioniert nach der aktuellen Host-Regel nicht mit `web1.karlsruhe.de`; das Feld wird bis zum Abschluss des Umbaus bewusst nicht angeboten. Die App läuft ausschließlich im Direktmodus; der bisherige Datenschutz-Hinweis auf den Proxy war dadurch sachlich falsch und wurde auf die Direktabruf-Formulierung umgestellt.
+
 ## 1.23.0 - 2026-08-17
 - `apiurl.hilfe` verwendete das Wort „Datensatz" für das Feld, das explizit NICHT die Datensatzseite sein soll (plus Tippfehler „Ressoucen"); jetzt mit expliziter Abgrenzung zu `urlDaten` formuliert (F-68)
 

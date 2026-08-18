@@ -3,7 +3,7 @@
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "klimastationen",
   "name": "Klimastationen",
-  "version": "1.23.0",
+  "version": "1.24.0",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
   "kurzbeschreibung": "Visualisiert Klimadaten aus konfigurierbaren Klimastationen mit KPIs, Temperaturverlauf und Tagesdaten.",
@@ -155,7 +155,7 @@
         "_multiline_",
         "<p>Diese App verarbeitet die angezeigten offenen Daten ausschließlich im Browser. Es werden keine Cookies gesetzt, keine Nutzungsstatistiken erhoben und keine Daten im Browser gespeichert.</p>",
         "<p>Alle für die Darstellung benötigten Programmbibliotheken werden mit der App ausgeliefert. Beim Aufruf werden dafür keine externen Server kontaktiert.</p>",
-        "<p>Die angezeigten Daten werden über den ODAS-Proxy geladen. Die Anfrage an die Datenquelle stellt der ODAS-Server; Ihre IP-Adresse wird dorthin nicht übermittelt. Maßgeblich ist der Schalter <code>proxyAktiv</code> der Instanz-Konfiguration.</p>"
+        "<p>Die angezeigten Daten werden vom Browser direkt aus der konfigurierten Datenquelle geladen. Dabei werden technisch bedingt IP-Adresse und Browserkennung an deren Betreiber übermittelt.</p>"
       ],
       "erforderlich": "ja"
     },
@@ -179,20 +179,6 @@
         "laenge": 50
       },
       "default": "(C) Copyright {{jahr}} | App & Daten: {{odp.anbieter.name}} | App-Entwickler: {{app.developer.name}} | ODAS: {{odas.betreiber.name}}",
-      "erforderlich": "ja"
-    },
-    "proxyAktiv": {
-      "label": "ODAS-Proxy aktivieren",
-      "category": "datenherkunft",
-      "hilfe": "Mit ja werden Datenabrufe über den ODAS-Proxy gesendet. Die konfigurierte Datenquelle (web1.karlsruhe.de) sendet keinen CORS-Header, deshalb ist ja hier der Standard. Nur mit einer CORS-freigegebenen Datenquelle kann auf nein umgestellt und die App standalone betrieben werden.",
-      "default": "ja",
-      "format": {
-        "typ": "dropdown",
-        "optionen": [
-          "nein",
-          "ja"
-        ]
-      },
       "erforderlich": "ja"
     },
     "apiurl": {

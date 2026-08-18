@@ -1,5 +1,4 @@
 {
-  "proxyAktiv": "ja",
   "titel": "Klimastationen",
   "seitentitel": "Klimastationen",
   "icon": "../assets/odas-app-icon.svg",
@@ -34,7 +33,7 @@
   "datenschutz": [
     "<p>Diese App verarbeitet die angezeigten offenen Daten ausschließlich im Browser. Es werden keine Cookies gesetzt, keine Nutzungsstatistiken erhoben und keine Daten im Browser gespeichert.</p>",
     "<p>Alle für die Darstellung benötigten Programmbibliotheken werden mit der App ausgeliefert. Beim Aufruf werden dafür keine externen Server kontaktiert.</p>",
-    "<p>Die angezeigten Daten werden über den ODAS-Proxy geladen. Die Anfrage an die Datenquelle stellt der ODAS-Server; Ihre IP-Adresse wird dorthin nicht übermittelt. Maßgeblich ist der Schalter <code>proxyAktiv</code> der Instanz-Konfiguration.</p>"
+    "<p>Die angezeigten Daten werden vom Browser direkt aus der konfigurierten Datenquelle geladen. Dabei werden technisch bedingt IP-Adresse und Browserkennung an deren Betreiber übermittelt.</p>"
   ],
   "urlDaten": "https://web1.karlsruhe.de/klima/",
   "fusszeile": [

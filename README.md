@@ -65,43 +65,34 @@ Der Inhaltsbereich wird in app/app.js erstellt. Dort kann eigener Code implement
 Die App kann lokal, eigenstaendig hinter einem Traefik-Reverse-Proxy oder ueber den ODAS
 betrieben werden.
 
-**Standalone ist eingeschraenkt** und nur mit einer ausgetauschten, CORS-freigegebenen
-Datenquelle moeglich — siehe den Hinweis unter „Standalone-Betrieb".
+### Datenabruf: kein `proxyAktiv`-Schalter
 
-### Datenabruf: `proxyAktiv`
+Der ODAS-Proxy wird derzeit umgebaut und funktioniert nach der aktuellen Host-Regel nicht
+mit der Datenquelle dieser App (`web1.karlsruhe.de` liegt ausserhalb des betreibenden ODP,
+jeder `…/odp-data`-Aufruf scheitert mit HTTP 500 ohne Fallback). Das Umschaltfeld
+`proxyAktiv` wird deshalb bewusst **nicht angeboten**; die App laedt ausschliesslich direkt.
 
-| Wert   | Bedeutung                                                                   |
-| ------ | --------------------------------------------------------------------------- |
-| `nein` | Direkter Abruf der Daten-URL. Setzt eine CORS-freigegebene Quelle voraus.    |
-| `ja`   | Abruf ueber den ODAS-Proxy `…/odp-data`. Nur im ODAS-Live-System verfuegbar. |
-
-**Diese App ist auf `ja` voreingestellt.** Die konfigurierte Datenquelle
-(`web1.karlsruhe.de`) sendet keinen `Access-Control-Allow-Origin`-Header; ein Direktabruf aus
-dem Browser wird daher blockiert. Fuer Entwicklung und Standalone-Betrieb muss
-eine CORS-freigegebene Datenquelle konfiguriert und `proxyAktiv` auf `nein`
-gesetzt werden.
+Die konfigurierte Datenquelle (`web1.karlsruhe.de`) sendet zudem keinen
+`Access-Control-Allow-Origin`-Header (gemessen 2026-08-18); ein Direktabruf aus dem Browser
+wird daher vom CORS-Mechanismus blockiert, bis entweder die Quelle CORS freigibt oder der
+Proxy-Umbau abgeschlossen ist und `proxyAktiv` wieder eingefuehrt wird.
 
 ### Standalone-Betrieb
 
 > **Standalone ist bei dieser App eingeschraenkt.** Mit der mitgelieferten Datenquelle
-> ist sie in **keiner** Standalone-Konfiguration funktionsfaehig: mit `proxyAktiv: "ja"`
-> fehlt der Proxy im Container, mit `"nein"` greift die CORS-Sperre der Quelle. Der
-> Standalone-Betrieb setzt deshalb zwingend eine ausgetauschte, CORS-freigegebene
-> Datenquelle voraus.
+> ist sie **nicht** funktionsfaehig — die CORS-Sperre der Quelle greift unabhaengig vom
+> Proxy-Umbau. Der Standalone-Betrieb setzt deshalb zwingend eine ausgetauschte,
+> CORS-freigegebene Datenquelle voraus.
 
 Voraussetzung: ein laufender Traefik mit dem externen Docker-Netzwerk `proxynet`,
 dem EntryPoint `websecure` und dem Zertifikatsresolver `letsencrypt`.
 
 1. In `docker-compose.standalone.yml` den Platzhalter `app1.example.com` durch den
    echten FQDN ersetzen.
-2. In `odas-config/config.json` `proxyAktiv` auf `nein` **setzen** — ausgeliefert
-   wird `ja`. Der ODAS-Proxy `…/odp-data` steht im Standalone-Container nicht zur
-   Verfuegung; die mitgelieferte `nginx.conf` kennt keinen entsprechenden
-   `location`-Block.
-3. Die Datenquelle (`apiurl`) auf eine CORS-freigegebene Ressource umstellen. Die
+2. Die Datenquelle (`apiurl`) auf eine CORS-freigegebene Ressource umstellen. Die
    mitgelieferte Quelle (`web1.karlsruhe.de`) sendet keinen
    `Access-Control-Allow-Origin`-Header und ist standalone **nicht** nutzbar.
-4. Starten:
+3. Starten:
 
 ```bash
 STANDALONE=true make up
@@ -116,7 +107,7 @@ ausgeliefert.
 
 ### Beim Aufruf kontaktierte Drittanbieter
 
-Beim Aufruf dieser App werden keine externen Server für Programmbibliotheken kontaktiert; alle Bibliotheken werden lokal aus `app/vendor/` ausgeliefert. Extern abgerufen wird ausschließlich die konfigurierte Datenquelle — über den ODAS-Proxy.
+Beim Aufruf dieser App werden keine externen Server für Programmbibliotheken kontaktiert; alle Bibliotheken werden lokal aus `app/vendor/` ausgeliefert. Extern abgerufen wird ausschließlich die konfigurierte Datenquelle — direkt aus dem Browser.
 
 ### Auslieferung an den ODAS
 
