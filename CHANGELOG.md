@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.26.0 - 2026-08-20
+- Markdown-Metadaten: Paketbeschreibungen auf echtes Markdown umgestellt, exakte Identität Top-Level/Instanz hergestellt, lokale HTML-Fixture semantisch gespiegelt.
 
 ## 1.25.0 - 2026-08-20
 - FIX: Drei-Datenzustände-Kontrakt umgesetzt — fehlende `apiurl` zeigt `alert-info` statt einen Hinweistext ohne Alert-Klasse; 0 Zeilen zeigen „Keine Datensätze in der Datenquelle gefunden." (F-69). Die zugrundeliegende Ursache (Direktmodus dauerhaft datenlos wegen fehlender CORS-Header, F-76) bleibt bewusst zurückgestellt bis zum ODAS-Proxy-Update.
