@@ -422,7 +422,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   async function loadData() {
     if (!apiurl) {
       enclosingHtmlDivElement.innerHTML =
-        '<div class="alert alert-warning m-3">Bitte <code>apiurl</code> in <code>config.json</code> konfigurieren.</div>';
+        '<div class="alert alert-info m-3" role="alert">Es ist keine Datenquelle konfiguriert.</div>';
       return;
     }
     setStatus("Lade Daten …");
@@ -433,12 +433,16 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       if (disposed) return;
       allRows = parseCsv(csvText);
       renderDatenstand();
-      setStatus(allRows.length + " Datensätze geladen");
+      if (allRows.length === 0) {
+        setStatus("Keine Datensätze in der Datenquelle gefunden.");
+      } else {
+        setStatus(allRows.length + " Datensätze geladen");
+      }
       buildMonatFilter();
       applyFilter();
     } catch (e) {
       if (disposed) return;
-      setStatus("Fehler: " + e.message);
+      setStatus("Fehler beim Laden der Daten: " + e.message);
     }
   }
 

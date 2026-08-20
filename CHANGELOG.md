@@ -1,6 +1,9 @@
 # Changelog
 
 
+## 1.25.0 - 2026-08-20
+- FIX: Drei-Datenzustände-Kontrakt umgesetzt — fehlende `apiurl` zeigt `alert-info` statt einen Hinweistext ohne Alert-Klasse; 0 Zeilen zeigen „Keine Datensätze in der Datenquelle gefunden." (F-69). Die zugrundeliegende Ursache (Direktmodus dauerhaft datenlos wegen fehlender CORS-Header, F-76) bleibt bewusst zurückgestellt bis zum ODAS-Proxy-Update.
+
 ## 1.24.0 - 2026-08-18
 - `proxyAktiv`-Schalter entfernt (`app-package.json`, `odas-config/config.json`): Der ODAS-Proxy wird umgebaut und funktioniert nach der aktuellen Host-Regel nicht mit `web1.karlsruhe.de`; das Feld wird bis zum Abschluss des Umbaus bewusst nicht angeboten. Die App läuft ausschließlich im Direktmodus; der bisherige Datenschutz-Hinweis auf den Proxy war dadurch sachlich falsch und wurde auf die Direktabruf-Formulierung umgestellt.
 
