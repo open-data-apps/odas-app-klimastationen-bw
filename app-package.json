@@ -3,7 +3,7 @@
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "klimastationen",
   "name": "Klimastationen",
-  "version": "1.26.0",
+  "version": "1.27.0",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
   "kurzbeschreibung": "Visualisiert Klimadaten aus konfigurierbaren Klimastationen mit KPIs, Temperaturverlauf und Tagesdaten.",
@@ -15,7 +15,7 @@
     "",
     "## Methodik",
     "",
-    "Die App ruft die in `apiurl` konfigurierte CSV-Datei direkt im Browser ab – es gibt keinen konfigurierbaren Proxy-Schalter; die App nutzt ausschließlich den Direktabruf. Die URL wird mit `new URL(csvUrl, window.location.href)` aufgelöst und per `fetch` geladen; der Abruf setzt voraus, dass die Quelle für Browser-Abfragen erreichbar ist und die CORS-Freigabe (`Access-Control-Allow-Origin`) gewährt.",
+    "Die App ruft die in `apiurls.klimastationen` konfigurierte CSV-Datei direkt im Browser ab – es gibt keinen konfigurierbaren Proxy-Schalter; die App nutzt ausschließlich den Direktabruf. Die URL wird mit `new URL(csvUrl, window.location.href)` aufgelöst und per `fetch` geladen; der Abruf setzt voraus, dass die Quelle für Browser-Abfragen erreichbar ist und die CORS-Freigabe (`Access-Control-Allow-Origin`) gewährt.",
     "",
     "Das Parsen erfolgt mit PapaParse (`header: true`, `skipEmptyLines: \"greedy\"`, Header `trim()`), Werte werden getrimmt und vollständig numerische Felder als Zahlen übernommen, Datumsspalten bleiben Text. Erwartet werden die von der Quelle gelieferten Wetterspalten wie `Datum`, `Mittlere_Temperatur`, `Temp_max`, `Temp_min`, `Regen_mm`, `Strahlung_ W/m²`, `Mittlere_Windgeschwindigkeit_km/h`, `Windboen_km/h`, `Richtung`, `Mittlerer_Luftdruck_hPa`, `Mittlere_Luftfeuchte`, `Taupunkt` und `Sonnenscheindauer_Min`; der Monatsfilter leitet `YYYY-MM` direkt aus `Datum` (erste 7 Zeichen, `substring(0, 7)`) ab.",
     "",
@@ -23,7 +23,7 @@
     "",
     "## Datenquelle",
     "",
-    "Die Daten stammen aus offenen CSV-Dateien der Stadt Karlsruhe und werden über das Transparenzportal bereitgestellt. Die App lädt die in `apiurl` konfigurierte URL.",
+    "Die Daten stammen aus offenen CSV-Dateien der Stadt Karlsruhe und werden über das Transparenzportal bereitgestellt. Die App lädt die in `apiurls.klimastationen` konfigurierte URL.",
     "",
     "- **Open Data Portal:** [Transparenzportal Karlsruhe](https://transparenz.karlsruhe.de)",
     "- **Datensatz:** [Wetterdaten 13 Monate rückwirkend](https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend)",
@@ -129,7 +129,7 @@
         "",
         "## Methodik",
         "",
-        "Die App ruft die in `apiurl` konfigurierte CSV-Datei direkt im Browser ab – es gibt keinen konfigurierbaren Proxy-Schalter; die App nutzt ausschließlich den Direktabruf. Die URL wird mit `new URL(csvUrl, window.location.href)` aufgelöst und per `fetch` geladen; der Abruf setzt voraus, dass die Quelle für Browser-Abfragen erreichbar ist und die CORS-Freigabe (`Access-Control-Allow-Origin`) gewährt.",
+        "Die App ruft die in `apiurls.klimastationen` konfigurierte CSV-Datei direkt im Browser ab – es gibt keinen konfigurierbaren Proxy-Schalter; die App nutzt ausschließlich den Direktabruf. Die URL wird mit `new URL(csvUrl, window.location.href)` aufgelöst und per `fetch` geladen; der Abruf setzt voraus, dass die Quelle für Browser-Abfragen erreichbar ist und die CORS-Freigabe (`Access-Control-Allow-Origin`) gewährt.",
         "",
         "Das Parsen erfolgt mit PapaParse (`header: true`, `skipEmptyLines: \"greedy\"`, Header `trim()`), Werte werden getrimmt und vollständig numerische Felder als Zahlen übernommen, Datumsspalten bleiben Text. Erwartet werden die von der Quelle gelieferten Wetterspalten wie `Datum`, `Mittlere_Temperatur`, `Temp_max`, `Temp_min`, `Regen_mm`, `Strahlung_ W/m²`, `Mittlere_Windgeschwindigkeit_km/h`, `Windboen_km/h`, `Richtung`, `Mittlerer_Luftdruck_hPa`, `Mittlere_Luftfeuchte`, `Taupunkt` und `Sonnenscheindauer_Min`; der Monatsfilter leitet `YYYY-MM` direkt aus `Datum` (erste 7 Zeichen, `substring(0, 7)`) ab.",
         "",
@@ -137,7 +137,7 @@
         "",
         "## Datenquelle",
         "",
-        "Die Daten stammen aus offenen CSV-Dateien der Stadt Karlsruhe und werden über das Transparenzportal bereitgestellt. Die App lädt die in `apiurl` konfigurierte URL.",
+        "Die Daten stammen aus offenen CSV-Dateien der Stadt Karlsruhe und werden über das Transparenzportal bereitgestellt. Die App lädt die in `apiurls.klimastationen` konfigurierte URL.",
         "",
         "- **Open Data Portal:** [Transparenzportal Karlsruhe](https://transparenz.karlsruhe.de)",
         "- **Datensatz:** [Wetterdaten 13 Monate rückwirkend](https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend)",
@@ -225,17 +225,24 @@
       "default": "(C) Copyright {{jahr}} | App & Daten: {{odp.anbieter.name}} | App-Entwickler: {{app.developer.name}} | ODAS: {{odas.betreiber.name}}",
       "erforderlich": "ja"
     },
-    "apiurl": {
-      "label": "URL zu den Daten",
+    "apiurls": {
+      "label": "URLs zu Datenressourcen",
       "category": "datenherkunft",
-      "hilfe": "Direkter, maschinenlesbarer Endpunkt, von dem die App die Ressourcen lädt — nicht die Datensatzseite im ODP (siehe „URL zum Datensatz im ODP\").",
+      "hilfe": "Direkter Download-, Datei- oder API-Endpunkt der tatsächlich verwendeten Datenquelle(n). Mehrere Einträge möglich.",
+      "typ": "array",
       "format": {
         "typ": "url",
-        "laenge": 255
+        "laenge": 500
       },
-      "default": "https://web1.karlsruhe.de/klima/file/wetter_13m.csv",
-      "beispiel": "",
-      "erforderlich": "ja"
+      "urls": [
+        {
+          "name": "klimastationen",
+          "label": "URL zu den Daten",
+          "default": "https://web1.karlsruhe.de/klima/file/wetter_13m.csv",
+          "beispiel": "",
+          "erforderlich": "ja"
+        }
+      ]
     },
     "weiterfuehrendeLinks": {
       "label": "Weiterführende Links",

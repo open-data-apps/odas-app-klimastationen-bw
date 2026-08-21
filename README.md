@@ -28,7 +28,7 @@ Die App ist eine Single-Page-Application Webapp mit:
 
 Die Konfiguration wird vom ODAS geladen.
 
-Die Klimadaten werden über die konfigurierte apiurl geladen.
+Die Klimadaten werden über die konfigurierte apiurls.klimastationen geladen.
 
 ## Für wen ist diese App?
 
@@ -89,7 +89,7 @@ dem EntryPoint `websecure` und dem Zertifikatsresolver `letsencrypt`.
 
 1. In `docker-compose.standalone.yml` den Platzhalter `app1.example.com` durch den
    echten FQDN ersetzen.
-2. Die Datenquelle (`apiurl`) auf eine CORS-freigegebene Ressource umstellen. Die
+2. Die Datenquelle (`apiurls.klimastationen`) auf eine CORS-freigegebene Ressource umstellen. Die
    mitgelieferte Quelle (`web1.karlsruhe.de`) sendet keinen
    `Access-Control-Allow-Origin`-Header und ist standalone **nicht** nutzbar.
 3. Starten:

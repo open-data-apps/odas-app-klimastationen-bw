@@ -8,11 +8,11 @@
     "<p>Die Klimastationen-App zeigt Wetter- und Klimadaten einer konfigurierten Messstation als Kennzahlen, Diagramm und Tabelle.</p>",
     "<p>Sie macht die von der Quelle gelieferten Messwerte verständlich sichtbar. Für wen ist diese App? Sie richtet sich an Bürger:innen, Umwelt- und Klimaschutzstellen, Verwaltung, Bildung und Medien, die lokale Klimadaten verständlich darstellen möchten – besondere Datenkenntnisse sind für die Nutzung nicht erforderlich.</p>",
     "<h2>Methodik</h2>",
-    "<p>Die App ruft die in <code>apiurl</code> konfigurierte CSV-Datei direkt im Browser ab – es gibt keinen konfigurierbaren Proxy-Schalter; die App nutzt ausschließlich den Direktabruf. Die URL wird mit <code>new URL(csvUrl, window.location.href)</code> aufgelöst und per <code>fetch</code> geladen; der Abruf setzt voraus, dass die Quelle für Browser-Abfragen erreichbar ist und die CORS-Freigabe (<code>Access-Control-Allow-Origin</code>) gewährt.</p>",
+    "<p>Die App ruft die in <code>apiurls.klimastationen</code> konfigurierte CSV-Datei direkt im Browser ab – es gibt keinen konfigurierbaren Proxy-Schalter; die App nutzt ausschließlich den Direktabruf. Die URL wird mit <code>new URL(csvUrl, window.location.href)</code> aufgelöst und per <code>fetch</code> geladen; der Abruf setzt voraus, dass die Quelle für Browser-Abfragen erreichbar ist und die CORS-Freigabe (<code>Access-Control-Allow-Origin</code>) gewährt.</p>",
     "<p>Das Parsen erfolgt mit PapaParse (<code>header: true</code>, <code>skipEmptyLines: \"greedy\"</code>, Header <code>trim()</code>), Werte werden getrimmt und vollständig numerische Felder als Zahlen übernommen, Datumsspalten bleiben Text. Erwartet werden die von der Quelle gelieferten Wetterspalten wie <code>Datum</code>, <code>Mittlere_Temperatur</code>, <code>Temp_max</code>, <code>Temp_min</code>, <code>Regen_mm</code>, <code>Strahlung_ W/m²</code>, <code>Mittlere_Windgeschwindigkeit_km/h</code>, <code>Windboen_km/h</code>, <code>Richtung</code>, <code>Mittlerer_Luftdruck_hPa</code>, <code>Mittlere_Luftfeuchte</code>, <code>Taupunkt</code> und <code>Sonnenscheindauer_Min</code>; der Monatsfilter leitet <code>YYYY-MM</code> direkt aus <code>Datum</code> (erste 7 Zeichen, <code>substring(0, 7)</code>) ab.</p>",
     "<p>Aus den geladenen Zeilen berechnet die App Kennzahlen (Messtage, Mittelwerte, Maxima, Summen wie Gesamtregen und Sonnenscheindauer), vier Diagramme (Temperatur, Wind, Niederschlag, Klima) und eine paginierte Tabelle (25 Zeilen pro Seite); Filter Monat und Paginierung arbeiten ausschließlich auf dem gelieferten Bestand. Die Quelle wird als 13-Monats-Rückblick beschrieben; die App selbst erzwingt keine feste Zeitspanne und trifft keine Zusagen zu Aktualität, Vollständigkeit oder zur dauerhaften Verfügbarkeit bzw. CORS-Freigabe der Quelle. Für die Darstellung benötigte Bibliotheken (Bootstrap, Chart.js, PapaParse) werden lokal aus <code>app/vendor/</code> ausgeliefert, beim Datenabruf wird jedoch der konfigurierte CSV-Host (<code>web1.karlsruhe.de</code>) kontaktiert.</p>",
     "<h2>Datenquelle</h2>",
-    "<p>Die Daten stammen aus offenen CSV-Dateien der Stadt Karlsruhe und werden über das Transparenzportal bereitgestellt. Die App lädt die in <code>apiurl</code> konfigurierte URL.</p>",
+    "<p>Die Daten stammen aus offenen CSV-Dateien der Stadt Karlsruhe und werden über das Transparenzportal bereitgestellt. Die App lädt die in <code>apiurls.klimastationen</code> konfigurierte URL.</p>",
     "<ul><li><strong>Open Data Portal:</strong> <a href=\"https://transparenz.karlsruhe.de\" target=\"_blank\" rel=\"noopener\">Transparenzportal Karlsruhe</a></li><li><strong>Datensatz:</strong> <a href=\"https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend\" target=\"_blank\" rel=\"noopener\">Wetterdaten 13 Monate rückwirkend</a></li><li><strong>Ressource/API-Endpunkt:</strong> <a href=\"https://web1.karlsruhe.de/klima/file/wetter_13m.csv\" target=\"_blank\" rel=\"noopener\">CSV-Datei wetter_13m.csv</a></li></ul>",
     "<p>Angezeigt werden die in der Quelle vorhandenen Messwerte; Verfügbarkeit und Aktualität hängen vom Pflegestand der Quelle ab. Der direkte Abruf setzt CORS-Freigabe der Quelle voraus.</p>",
     "<h2>Open Data App</h2>",
@@ -41,7 +41,13 @@
     "App-Entwickler: Ondics GmbH | ",
     "Provided by: Ondics GmbH"
   ],
-  "apiurl": "https://web1.karlsruhe.de/klima/file/wetter_13m.csv",
+  "apiurls": [
+    {
+      "name": "klimastationen",
+      "label": "URL zu den Daten",
+      "url": "https://web1.karlsruhe.de/klima/file/wetter_13m.csv"
+    }
+  ],
   "weiterfuehrendeLinks": "<ul><li><a href='https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend' target='_blank'>Wetterdaten Karlsruhe (Transparenzportal)</a></li><li><a href='https://www.dwd.de/' target='_blank'>Deutscher Wetterdienst (DWD)</a></li></ul>",
   "datenquelleHinweis": "<p>Die Wetterdaten stammen vom <a href=\"https://www.dwd.de/\" target=\"_blank\" rel=\"noopener\">Deutschen Wetterdienst (DWD)</a> und werden über das <a href=\"https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend\" target=\"_blank\" rel=\"noopener\">Transparenzportal Karlsruhe</a> als 13-Monats-Rückblick bereitgestellt. Angezeigt werden Temperatur, Regen, Wind, Luftdruck, Luftfeuchte und Sonnenscheindauer der konfigurierten Messstation.</p><p>Vollständigkeit und Aktualität hängen vom Bereitstellungsintervall der Datenquelle ab.</p>",
   "datenStand": "Stand: 13-Monats-Rückblick (DWD via Transparenzportal Karlsruhe)",

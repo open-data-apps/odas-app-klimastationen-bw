@@ -72,6 +72,17 @@ async function fetchOdasResource(targetUrl, configdata = {}) {
   }
 }
 
+/**
+ * Löst eine benannte Datenressource aus configdata.apiurls auf.
+ * Neue apiurls-Form (typ: "array"); das frühere skalare apiurl wird nicht mehr gelesen.
+ * @returns {string} getrimmte URL, oder "" für den Zustand "keine Quelle konfiguriert"
+ */
+function getOdasApiUrl(configdata, name) {
+  const liste = Array.isArray(configdata && configdata.apiurls) ? configdata.apiurls : [];
+  const treffer = liste.find((eintrag) => eintrag && eintrag.name === name);
+  return String((treffer && treffer.url) || "").trim();
+}
+
 async function fetchOdasJson(targetUrl, configdata = {}) {
   const rawContent = await fetchOdasResource(targetUrl, configdata);
   try {
@@ -124,7 +135,7 @@ let klimaInstanzZaehler = 0;
 function app(configdata = {}, enclosingHtmlDivElement) {
   const klimaUid = "i" + ++klimaInstanzZaehler;
   const root = enclosingHtmlDivElement;
-  const apiurl = configdata.apiurl || "";
+  const apiurl = getOdasApiUrl(configdata, "klimastationen");
   const titel = configdata.titel || "Wetterdaten Karlsruhe";
 
   // Exakte Spaltennamen aus der CSV
