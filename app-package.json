@@ -3,7 +3,7 @@
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "klimastationen",
   "name": "Klimastationen",
-  "app-version": "1.29.0",
+  "app-version": "1.30.0",
   "app-package-version": "2",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
@@ -16,7 +16,7 @@
     "",
     "## Methodik",
     "",
-    "Die App ruft die in `apiurls.klimastationen` konfigurierte CSV-Datei direkt im Browser ab – es gibt keinen konfigurierbaren Proxy-Schalter; die App nutzt ausschließlich den Direktabruf. Die URL wird mit `new URL(csvUrl, window.location.href)` aufgelöst und per `fetch` geladen; der Abruf setzt voraus, dass die Quelle für Browser-Abfragen erreichbar ist und die CORS-Freigabe (`Access-Control-Allow-Origin`) gewährt.",
+    "Die App ruft die in `apiurls.klimastationen` konfigurierte CSV-Datei im Browser ab; Standard ist der Direktabruf. Mit dem Konfigurationsschalter `proxyAktiv: ja` werden Anfragen stattdessen über den ODAS-Proxy des App-Stores geleitet (nur im ODAS-Live-System verfügbar). Die URL wird mit `new URL(csvUrl, window.location.href)` aufgelöst und per `fetch` geladen; der Abruf setzt voraus, dass die Quelle für Browser-Abfragen erreichbar ist und die CORS-Freigabe (`Access-Control-Allow-Origin`) gewährt.",
     "",
     "Das Parsen erfolgt mit PapaParse (`header: true`, `skipEmptyLines: \"greedy\"`, Header `trim()`), Werte werden getrimmt und vollständig numerische Felder als Zahlen übernommen, Datumsspalten bleiben Text. Erwartet werden die von der Quelle gelieferten Wetterspalten wie `Datum`, `Mittlere_Temperatur`, `Temp_max`, `Temp_min`, `Regen_mm`, `Strahlung_ W/m²`, `Mittlere_Windgeschwindigkeit_km/h`, `Windboen_km/h`, `Richtung`, `Mittlerer_Luftdruck_hPa`, `Mittlere_Luftfeuchte`, `Taupunkt` und `Sonnenscheindauer_Min`; der Monatsfilter leitet `YYYY-MM` direkt aus `Datum` (erste 7 Zeichen, `substring(0, 7)`) ab.",
     "",
@@ -130,7 +130,7 @@
         "",
         "## Methodik",
         "",
-        "Die App ruft die in `apiurls.klimastationen` konfigurierte CSV-Datei direkt im Browser ab – es gibt keinen konfigurierbaren Proxy-Schalter; die App nutzt ausschließlich den Direktabruf. Die URL wird mit `new URL(csvUrl, window.location.href)` aufgelöst und per `fetch` geladen; der Abruf setzt voraus, dass die Quelle für Browser-Abfragen erreichbar ist und die CORS-Freigabe (`Access-Control-Allow-Origin`) gewährt.",
+        "Die App ruft die in `apiurls.klimastationen` konfigurierte CSV-Datei im Browser ab; Standard ist der Direktabruf. Mit dem Konfigurationsschalter `proxyAktiv: ja` werden Anfragen stattdessen über den ODAS-Proxy des App-Stores geleitet (nur im ODAS-Live-System verfügbar). Die URL wird mit `new URL(csvUrl, window.location.href)` aufgelöst und per `fetch` geladen; der Abruf setzt voraus, dass die Quelle für Browser-Abfragen erreichbar ist und die CORS-Freigabe (`Access-Control-Allow-Origin`) gewährt.",
         "",
         "Das Parsen erfolgt mit PapaParse (`header: true`, `skipEmptyLines: \"greedy\"`, Header `trim()`), Werte werden getrimmt und vollständig numerische Felder als Zahlen übernommen, Datumsspalten bleiben Text. Erwartet werden die von der Quelle gelieferten Wetterspalten wie `Datum`, `Mittlere_Temperatur`, `Temp_max`, `Temp_min`, `Regen_mm`, `Strahlung_ W/m²`, `Mittlere_Windgeschwindigkeit_km/h`, `Windboen_km/h`, `Richtung`, `Mittlerer_Luftdruck_hPa`, `Mittlere_Luftfeuchte`, `Taupunkt` und `Sonnenscheindauer_Min`; der Monatsfilter leitet `YYYY-MM` direkt aus `Datum` (erste 7 Zeichen, `substring(0, 7)`) ab.",
         "",
@@ -200,7 +200,7 @@
         "",
         "Alle für die Darstellung benötigten Programmbibliotheken werden mit der App ausgeliefert. Beim Aufruf werden dafür keine externen Server kontaktiert.",
         "",
-        "Die angezeigten Daten werden vom Browser direkt aus der konfigurierten Datenquelle geladen. Dabei werden technisch bedingt IP-Adresse und Browserkennung an deren Betreiber übermittelt."
+        "Die angezeigten Daten werden vom Browser direkt aus der konfigurierten Datenquelle geladen. Dabei werden technisch bedingt IP-Adresse und Browserkennung an deren Betreiber übermittelt. Bei aktiviertem ODAS-Proxy (`proxyAktiv: ja`) werden Anfragen stattdessen über den Server des App-Stores geleitet."
       ],
       "erforderlich": "ja"
     },
@@ -244,6 +244,17 @@
           "erforderlich": "ja"
         }
       ]
+    },
+    "proxyAktiv": {
+      "label": "ODAS-Proxy aktivieren",
+      "category": "datenherkunft",
+      "hilfe": "Mit ja werden Datenabrufe über den ODAS-Proxy gesendet. Möglich, wenn die Quelle-Origin in den konfigurierten apiurls steht. Der Proxy selbst ist nur im ODAS-Live-System verfügbar; Entwicklung und Standalone verwenden nein.",
+      "default": "nein",
+      "format": {
+        "typ": "dropdown",
+        "optionen": ["nein", "ja"]
+      },
+      "erforderlich": "ja"
     },
     "weiterfuehrendeLinks": {
       "label": "Weiterführende Links",

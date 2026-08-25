@@ -65,17 +65,19 @@ Der Inhaltsbereich wird in app/app.js erstellt. Dort kann eigener Code implement
 Die App kann lokal, eigenstaendig hinter einem Traefik-Reverse-Proxy oder ueber den ODAS
 betrieben werden.
 
-### Datenabruf: kein `proxyAktiv`-Schalter
+### Datenabruf: Direktmodus oder ODAS-Proxy (`proxyAktiv`)
 
-Der ODAS-Proxy wird derzeit umgebaut und funktioniert nach der aktuellen Host-Regel nicht
-mit der Datenquelle dieser App (`web1.karlsruhe.de` liegt ausserhalb des betreibenden ODP,
-jeder `…/odp-data`-Aufruf scheitert mit HTTP 500 ohne Fallback). Das Umschaltfeld
-`proxyAktiv` wird deshalb bewusst **nicht angeboten**; die App laedt ausschliesslich direkt.
+Die App laedt die Datenquelle standardmaessig **direkt** im Browser. Ueber den
+Konfigurationsschalter `proxyAktiv` kann je Instanz auf den ODAS-Proxy umgeschaltet
+werden; seit dem Plattform-Update vom 2026-08-24 erlaubt der Proxy Datenabrufe fuer jede
+Quelle-Origin, die in den konfigurierten `apiurls` steht.
 
-Die konfigurierte Datenquelle (`web1.karlsruhe.de`) sendet zudem keinen
-`Access-Control-Allow-Origin`-Header (gemessen 2026-08-18); ein Direktabruf aus dem Browser
-wird daher vom CORS-Mechanismus blockiert, bis entweder die Quelle CORS freigibt oder der
-Proxy-Umbau abgeschlossen ist und `proxyAktiv` wieder eingefuehrt wird.
+Das ist bei dieser App der praktisch relevante Weg: Die konfigurierte Quelle
+(`web1.karlsruhe.de`) sendet keinen `Access-Control-Allow-Origin`-Header (gemessen
+2026-08-18), ein Direktabruf aus dem Browser wird daher vom CORS-Mechanismus blockiert.
+Im ODAS-Live-Betrieb laedt die App mit `proxyAktiv: ja` ihre Daten ueber den Proxy;
+Standalone und lokale Entwicklung bleiben auf eine CORS-freigegebene Quelle angewiesen
+(siehe unten).
 
 ### Standalone-Betrieb
 

@@ -8,7 +8,7 @@
     "<p>Die Klimastationen-App zeigt Wetter- und Klimadaten einer konfigurierten Messstation als Kennzahlen, Diagramm und Tabelle.</p>",
     "<p>Sie macht die von der Quelle gelieferten Messwerte verständlich sichtbar. Für wen ist diese App? Sie richtet sich an Bürger:innen, Umwelt- und Klimaschutzstellen, Verwaltung, Bildung und Medien, die lokale Klimadaten verständlich darstellen möchten – besondere Datenkenntnisse sind für die Nutzung nicht erforderlich.</p>",
     "<h2>Methodik</h2>",
-    "<p>Die App ruft die in <code>apiurls.klimastationen</code> konfigurierte CSV-Datei direkt im Browser ab – es gibt keinen konfigurierbaren Proxy-Schalter; die App nutzt ausschließlich den Direktabruf. Die URL wird mit <code>new URL(csvUrl, window.location.href)</code> aufgelöst und per <code>fetch</code> geladen; der Abruf setzt voraus, dass die Quelle für Browser-Abfragen erreichbar ist und die CORS-Freigabe (<code>Access-Control-Allow-Origin</code>) gewährt.</p>",
+    "<p>Die App ruft die in <code>apiurls.klimastationen</code> konfigurierte CSV-Datei im Browser ab; Standard ist der Direktabruf. Mit dem Schalter proxyAktiv: ja werden Anfragen stattdessen über den ODAS-Proxy des App-Stores geleitet (nur im ODAS-Live-System verfügbar). Die URL wird mit <code>new URL(csvUrl, window.location.href)</code> aufgelöst und per <code>fetch</code> geladen; der Abruf setzt voraus, dass die Quelle für Browser-Abfragen erreichbar ist und die CORS-Freigabe (<code>Access-Control-Allow-Origin</code>) gewährt.</p>",
     "<p>Das Parsen erfolgt mit PapaParse (<code>header: true</code>, <code>skipEmptyLines: \"greedy\"</code>, Header <code>trim()</code>), Werte werden getrimmt und vollständig numerische Felder als Zahlen übernommen, Datumsspalten bleiben Text. Erwartet werden die von der Quelle gelieferten Wetterspalten wie <code>Datum</code>, <code>Mittlere_Temperatur</code>, <code>Temp_max</code>, <code>Temp_min</code>, <code>Regen_mm</code>, <code>Strahlung_ W/m²</code>, <code>Mittlere_Windgeschwindigkeit_km/h</code>, <code>Windboen_km/h</code>, <code>Richtung</code>, <code>Mittlerer_Luftdruck_hPa</code>, <code>Mittlere_Luftfeuchte</code>, <code>Taupunkt</code> und <code>Sonnenscheindauer_Min</code>; der Monatsfilter leitet <code>YYYY-MM</code> direkt aus <code>Datum</code> (erste 7 Zeichen, <code>substring(0, 7)</code>) ab.</p>",
     "<p>Aus den geladenen Zeilen berechnet die App Kennzahlen (Messtage, Mittelwerte, Maxima, Summen wie Gesamtregen und Sonnenscheindauer), vier Diagramme (Temperatur, Wind, Niederschlag, Klima) und eine paginierte Tabelle (25 Zeilen pro Seite); Filter Monat und Paginierung arbeiten ausschließlich auf dem gelieferten Bestand. Die Quelle wird als 13-Monats-Rückblick beschrieben; die App selbst erzwingt keine feste Zeitspanne und trifft keine Zusagen zu Aktualität, Vollständigkeit oder zur dauerhaften Verfügbarkeit bzw. CORS-Freigabe der Quelle. Für die Darstellung benötigte Bibliotheken (Bootstrap, Chart.js, PapaParse) werden lokal aus <code>app/vendor/</code> ausgeliefert, beim Datenabruf wird jedoch der konfigurierte CSV-Host (<code>web1.karlsruhe.de</code>) kontaktiert.</p>",
     "<h2>Datenquelle</h2>",
@@ -29,10 +29,11 @@
     "Wolfgang Clauss<br>Blumenstrasse 19<br>",
     "<a href='https://www.ondics.de/' target='_blank'>https://www.ondics.de/</a>"
   ],
+  "proxyAktiv": "nein",
   "datenschutz": [
     "<p>Diese App verarbeitet die angezeigten offenen Daten ausschließlich im Browser. Es werden keine Cookies gesetzt, keine Nutzungsstatistiken erhoben und keine Daten im Browser gespeichert.</p>",
     "<p>Alle für die Darstellung benötigten Programmbibliotheken werden mit der App ausgeliefert. Beim Aufruf werden dafür keine externen Server kontaktiert.</p>",
-    "<p>Die angezeigten Daten werden vom Browser direkt aus der konfigurierten Datenquelle geladen. Dabei werden technisch bedingt IP-Adresse und Browserkennung an deren Betreiber übermittelt.</p>"
+    "<p>Die angezeigten Daten werden vom Browser direkt aus der konfigurierten Datenquelle geladen. Dabei werden technisch bedingt IP-Adresse und Browserkennung an deren Betreiber übermittelt. Bei aktiviertem ODAS-Proxy (proxyAktiv: ja) werden Anfragen stattdessen über den Server des App-Stores geleitet.</p>"
   ],
   "urlDaten": "https://web1.karlsruhe.de/klima/",
   "fusszeile": [
