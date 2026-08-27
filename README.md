@@ -67,15 +67,9 @@ betrieben werden.
 
 ### Datenabruf: Direktmodus oder ODAS-Proxy (`proxyAktiv`)
 
-Die App laedt die Datenquelle standardmaessig **direkt** im Browser. Ueber den
-Konfigurationsschalter `proxyAktiv` kann je Instanz auf den ODAS-Proxy umgeschaltet
-werden; seit dem Plattform-Update vom 2026-08-24 erlaubt der Proxy Datenabrufe fuer jede
-Quelle-Origin, die in den konfigurierten `apiurls` steht.
+Die App laedt die Datenquelle standardmaessig **ueber den ODAS-Proxy** (`proxyAktiv: ja`), da die konfigurierte Quelle (`web1.karlsruhe.de`) keinen `Access-Control-Allow-Origin`-Header sendet (gemessen 2026-08-18). Nur mit einer CORS-freigegebenen Datenquelle kann auf Direktabruf (`proxyAktiv: nein`) umgestellt werden. Seit dem Plattform-Update vom 2026-08-24 erlaubt der Proxy Datenabrufe fuer jede Quelle-Origin, die in den konfigurierten `apiurls` steht.
 
-Das ist bei dieser App der praktisch relevante Weg: Die konfigurierte Quelle
-(`web1.karlsruhe.de`) sendet keinen `Access-Control-Allow-Origin`-Header (gemessen
-2026-08-18), ein Direktabruf aus dem Browser wird daher vom CORS-Mechanismus blockiert.
-Im ODAS-Live-Betrieb laedt die App mit `proxyAktiv: ja` ihre Daten ueber den Proxy;
+Im ODAS-Live-Betrieb laedt die App daher mit `proxyAktiv: ja` ihre Daten ueber den Proxy;
 Standalone und lokale Entwicklung bleiben auf eine CORS-freigegebene Quelle angewiesen
 (siehe unten).
 

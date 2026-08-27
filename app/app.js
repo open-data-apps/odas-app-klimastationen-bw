@@ -365,6 +365,34 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     if (el) el.textContent = msg;
   }
 
+  function renderKlimaError(msg) {
+    let host = root.querySelector("#klima-error-host");
+    if (!host) {
+      host = document.createElement("div");
+      host.id = "klima-error-host";
+      const anchor = root.querySelector("#klima-datenstand");
+      if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(host, anchor.nextSibling);
+      else root.prepend(host);
+    }
+    host.innerHTML = '<div class="alert alert-danger" role="alert">' + escapeHtml(msg) + '</div>';
+    setStatus("");
+  }
+
+  function renderKlimaInfo(msg) {
+    let host = root.querySelector("#klima-error-host");
+    if (host) host.innerHTML = "";
+    let infoHost = root.querySelector("#klima-error-host");
+    if (!infoHost) {
+      infoHost = document.createElement("div");
+      infoHost.id = "klima-error-host";
+      const anchor = root.querySelector("#klima-datenstand");
+      if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(infoHost, anchor.nextSibling);
+      else root.prepend(infoHost);
+    }
+    infoHost.innerHTML = '<div class="alert alert-info" role="alert">' + escapeHtml(msg) + '</div>';
+    setStatus("");
+  }
+
   function numVal(row, col) {
     return parseFloat(row[col]);
   }
@@ -430,11 +458,12 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   // ── Daten laden ────────────────────────────────────────────────────
   async function loadData() {
     if (!apiurl) {
-      enclosingHtmlDivElement.innerHTML =
-        '<div class="alert alert-info m-3" role="alert">Es ist keine Datenquelle konfiguriert.</div>';
+      renderKlimaInfo("Es ist keine Datenquelle konfiguriert.");
       return;
     }
     setStatus("Lade Daten …");
+    const oldHost = root.querySelector("#klima-error-host");
+    if (oldHost) oldHost.innerHTML = "";
     try {
       const csvText = await fetchCsvText(apiurl);
       if (disposed) return;
@@ -443,15 +472,18 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       allRows = parseCsv(csvText);
       renderDatenstand();
       if (allRows.length === 0) {
-        setStatus("Keine Datensätze in der Datenquelle gefunden.");
-      } else {
-        setStatus(allRows.length + " Datensätze geladen");
+        renderKlimaInfo("Keine Datensätze in der Datenquelle gefunden.");
+        buildMonatFilter();
+        applyFilter();
+        return;
       }
+      if (root.querySelector("#klima-error-host")) root.querySelector("#klima-error-host").innerHTML = "";
+      setStatus(allRows.length + " Datensätze geladen");
       buildMonatFilter();
       applyFilter();
     } catch (e) {
       if (disposed) return;
-      setStatus("Fehler beim Laden der Daten: " + e.message);
+      renderKlimaError("Fehler beim Laden der Daten: " + e.message);
     }
   }
 

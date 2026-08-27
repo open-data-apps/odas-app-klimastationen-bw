@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.31.0 - 2026-08-27
+- **CHG:** `proxyAktiv` Default auf `ja` (web1.karlsruhe.de ohne CORS, F-76).
+- **FIX:** Fehler beim Laden jetzt als roter `alert-danger` statt grauer Statuszeile; „keine Quelle“/„leer“ als `alert-info` getrennt (F-76/F-69).
+
 ## 1.30.0 - 2026-08-25
 - **CHG:** `proxyAktiv`-Schalter wiedereingeführt (Default `nein`). Der ODAS-Proxy erlaubt seit Plattform-Update 2026-08-24 Datenabrufe für jede in den `apiurls` konfigurierte Quelle-Origin — für `web1.karlsruhe.de` (kein CORS-Header) ist der Proxy damit wieder der funktionsfähige Weg.
 
