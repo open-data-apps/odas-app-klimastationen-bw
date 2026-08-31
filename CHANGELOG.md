@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.32.0 - 2026-09-01
+- **FIX:** B3-Datenschutz auf `proxyAktiv: ja` korrigiert (`über den ODAS-Proxy geladen` statt Direkt-Formulierung) in `app-package.json`/`odas-config/config.json`/`README` — `doku-check` B3 grün (F-76-Nachbesserung).
+
 ## 1.31.0 - 2026-08-27
 - **CHG:** `proxyAktiv` Default auf `ja` (web1.karlsruhe.de ohne CORS, F-76).
 - **FIX:** Fehler beim Laden jetzt als roter `alert-danger` statt grauer Statuszeile; „keine Quelle“/„leer“ als `alert-info` getrennt (F-76/F-69).

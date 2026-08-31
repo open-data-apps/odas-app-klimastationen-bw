@@ -103,7 +103,7 @@ ausgeliefert.
 
 ### Beim Aufruf kontaktierte Drittanbieter
 
-Beim Aufruf dieser App werden keine externen Server für Programmbibliotheken kontaktiert; alle Bibliotheken werden lokal aus `app/vendor/` ausgeliefert. Extern abgerufen wird ausschließlich die konfigurierte Datenquelle — direkt aus dem Browser.
+Beim Aufruf dieser App werden keine externen Server für Programmbibliotheken kontaktiert; alle Bibliotheken werden lokal aus `app/vendor/` ausgeliefert. Extern abgerufen wird ausschließlich die konfigurierte Datenquelle — über den ODAS-Proxy.
 
 ### Auslieferung an den ODAS
 
