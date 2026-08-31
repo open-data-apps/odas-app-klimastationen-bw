@@ -1,128 +1,14 @@
 {
-  "app-entwickler-id": "12343",
-  "app-entwickler-name": "ondics-gmbh",
-  "name-in-url": "klimastationen",
-  "name": "Klimastationen",
-  "app-version": "1.31.0",
-  "app-package-version": "2",
-  "odas-app-icon": "assets/odas-app-icon.svg",
-  "app-icon": "assets/odas-app-icon.svg",
-  "kurzbeschreibung": "Visualisiert Klimadaten aus konfigurierbaren Klimastationen mit KPIs, Temperaturverlauf und Tagesdaten.",
-  "beschreibung": [
-    "_multiline_",
-    "Die Klimastationen-App zeigt Wetter- und Klimadaten einer konfigurierten Messstation als Kennzahlen, Diagramm und Tabelle.",
-    "",
-    "Sie macht die von der Quelle gelieferten Messwerte verständlich sichtbar. Für wen ist diese App? Sie richtet sich an Bürger:innen, Umwelt- und Klimaschutzstellen, Verwaltung, Bildung und Medien, die lokale Klimadaten verständlich darstellen möchten – besondere Datenkenntnisse sind für die Nutzung nicht erforderlich.",
-    "",
-    "## Methodik",
-    "",
-    "Die App ruft die in `apiurls.klimastationen` konfigurierte CSV-Datei im Browser ab; Standard ist der Direktabruf. Mit dem Konfigurationsschalter `proxyAktiv: ja` werden Anfragen stattdessen über den ODAS-Proxy des App-Stores geleitet (nur im ODAS-Live-System verfügbar). Die URL wird mit `new URL(csvUrl, window.location.href)` aufgelöst und per `fetch` geladen; der Abruf setzt voraus, dass die Quelle für Browser-Abfragen erreichbar ist und die CORS-Freigabe (`Access-Control-Allow-Origin`) gewährt.",
-    "",
-    "Das Parsen erfolgt mit PapaParse (`header: true`, `skipEmptyLines: \"greedy\"`, Header `trim()`), Werte werden getrimmt und vollständig numerische Felder als Zahlen übernommen, Datumsspalten bleiben Text. Erwartet werden die von der Quelle gelieferten Wetterspalten wie `Datum`, `Mittlere_Temperatur`, `Temp_max`, `Temp_min`, `Regen_mm`, `Strahlung_ W/m²`, `Mittlere_Windgeschwindigkeit_km/h`, `Windboen_km/h`, `Richtung`, `Mittlerer_Luftdruck_hPa`, `Mittlere_Luftfeuchte`, `Taupunkt` und `Sonnenscheindauer_Min`; der Monatsfilter leitet `YYYY-MM` direkt aus `Datum` (erste 7 Zeichen, `substring(0, 7)`) ab.",
-    "",
-    "Aus den geladenen Zeilen berechnet die App Kennzahlen (Messtage, Mittelwerte, Maxima, Summen wie Gesamtregen und Sonnenscheindauer), vier Diagramme (Temperatur, Wind, Niederschlag, Klima) und eine paginierte Tabelle (25 Zeilen pro Seite); Filter Monat und Paginierung arbeiten ausschließlich auf dem gelieferten Bestand. Die Quelle wird als 13-Monats-Rückblick beschrieben; die App selbst erzwingt keine feste Zeitspanne und trifft keine Zusagen zu Aktualität, Vollständigkeit oder zur dauerhaften Verfügbarkeit bzw. CORS-Freigabe der Quelle. Für die Darstellung benötigte Bibliotheken (Bootstrap, Chart.js, PapaParse) werden lokal aus `app/vendor/` ausgeliefert, beim Datenabruf wird jedoch der konfigurierte CSV-Host (`web1.karlsruhe.de`) kontaktiert.",
-    "",
-    "## Datenquelle",
-    "",
-    "Die Daten stammen aus offenen CSV-Dateien der Stadt Karlsruhe und werden über das Transparenzportal bereitgestellt. Die App lädt die in `apiurls.klimastationen` konfigurierte URL.",
-    "",
-    "- **Open Data Portal:** [Transparenzportal Karlsruhe](https://transparenz.karlsruhe.de)",
-    "- **Datensatz:** [Wetterdaten 13 Monate rückwirkend](https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend)",
-    "- **Ressource/API-Endpunkt:** [CSV-Datei wetter_13m.csv](https://web1.karlsruhe.de/klima/file/wetter_13m.csv)",
-    "",
-    "Angezeigt werden die in der Quelle vorhandenen Messwerte; Verfügbarkeit und Aktualität hängen vom Pflegestand der Quelle ab. Der direkte Abruf setzt CORS-Freigabe der Quelle voraus.",
-    "",
-    "## Open Data App",
-    "",
-    "Diese App ist eine Open Data App und kann im [Open Data App Store](https://open-data-app-store.de/) betrieben werden. Sie ist Open Source und lässt sich mit Wetter- oder Klimadaten anderer Kommunen konfigurieren.",
-    "",
-    "- [Open Data App Store](https://open-data-app-store.de/) – die Plattform für Open Data Apps",
-    "- [Alle Open Data Apps auf GitHub](https://github.com/open-data-apps) – die Organisation mit allen Apps",
-    "- [odas-app-klimastationen-bw](https://github.com/open-data-apps/odas-app-klimastationen-bw) – das Repository dieser App"
-  ],
-  "tags-funktion": [
-    "Datenvisualisierung"
-  ],
-  "tags-dateityp": [
-    "CSV"
-  ],
-  "tags-datenart": [
-    "Klima",
-    "Wetter"
-  ],
-  "screenshots": [
-    "assets/Desktop_Screenshot.png",
-    "assets/Mobile_Screenshot.png"
-  ],
-  "daten": {
-    "beschreibung": "Die App verarbeitet Klimadaten aus konfigurierbaren Open-Data-Ressourcen (z.B. CSV-Endpunkte) und bereitet sie als Kennzahlen, Diagramm und Tabelle auf.",
-    "schema": "assets/schema.json",
-    "beispiel": "",
-    "beispiel-url": ""
-  },
-  "branding-css": "",
-  "api-version": "1",
-  "instanz-config": {
-    "seitentitel": {
-      "label": "Seitentitel",
-      "category": "allgemein",
-      "hilfe": "Der Seitentitel wird im Browser-Tab der App angezeigt",
-      "default": "Klimastationen",
-      "format": {
-        "typ": "string",
-        "laenge": 50
-      },
-      "erforderlich": "ja"
-    },
-    "titel": {
-      "label": "Titel",
-      "category": "allgemein",
-      "hilfe": "Der Titel wird in der Titelzeile der App angezeigt",
-      "default": "Klimastationen",
-      "format": {
-        "typ": "string",
-        "laenge": 50
-      },
-      "erforderlich": "ja"
-    },
-    "icon": {
-      "label": "App-Icon",
-      "category": "allgemein",
-      "hilfe": "Das Icon wird links oben in der Titelzeile angezeigt",
-      "default": "{{{odp.logo}}}",
-      "format": {
-        "typ": "image",
-        "hoehe": 100,
-        "breite": 300
-      },
-      "erforderlich": "ja"
-    },
-    "kontakt": {
-      "label": "Kontakt",
-      "category": "kontakt-rechtliches",
-      "hilfe": "Der Text wird im Menüpunkt 'Kontakt' anzeigt",
-      "format": {
-        "typ": "markdown"
-      },
-      "default": [
-        "_multiline_",
-        "Sie sind zufrieden mit der App oder haben Anregungen, Verbesserungen oder Hinweise, die Sie uns mitteilen möchten?",
-        "",
-        "Dann richten Sie sich gerne an uns. Wir freuen uns über alle Nachrichten. Ihre Nachrichten können Sie uns mitteilen über:",
-        "",
-        "- Tel.: [{{odp.anbieter.tel}}](tel:{{odp.anbieter.tel}})",
-        "- E-Mail: [{{odp.anbieter.email}}](mailto:{{odp.anbieter.email}})"
-      ],
-      "erforderlich": "ja"
-    },
-    "beschreibung": {
-      "label": "Beschreibung",
-      "category": "beschreibung",
-      "hilfe": "Der Text wird im Menüpunkt 'Über diese App' angezeigt",
-      "format": {
-        "typ": "markdown"
-      },
-      "default": [
+    "app-entwickler-id": "12343",
+    "app-entwickler-name": "ondics-gmbh",
+    "name-in-url": "klimastationen",
+    "name": "Klimastationen",
+    "app-version": "1.31.0",
+    "app-package-version": "2",
+    "odas-app-icon": "assets/odas-app-icon.svg",
+    "app-icon": "assets/odas-app-icon.svg",
+    "kurzbeschreibung": "Visualisiert Klimadaten aus konfigurierbaren Klimastationen mit KPIs, Temperaturverlauf und Tagesdaten.",
+    "beschreibung": [
         "_multiline_",
         "Die Klimastationen-App zeigt Wetter- und Klimadaten einer konfigurierten Messstation als Kennzahlen, Diagramm und Tabelle.",
         "",
@@ -141,8 +27,8 @@
         "Die Daten stammen aus offenen CSV-Dateien der Stadt Karlsruhe und werden über das Transparenzportal bereitgestellt. Die App lädt die in `apiurls.klimastationen` konfigurierte URL.",
         "",
         "- **Open Data Portal:** [Transparenzportal Karlsruhe](https://transparenz.karlsruhe.de)",
-        "- **Datensatz:** [Wetterdaten 13 Monate rückwirkend](https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend)",
-        "- **Ressource/API-Endpunkt:** [CSV-Datei wetter_13m.csv](https://web1.karlsruhe.de/klima/file/wetter_13m.csv)",
+        "- **Datensatz:** [Wetterdaten 13 Monate rückwirkend]({{{appinstanz.urlDaten}}})",
+        "- **Ressource/API-Endpunkt:** [CSV-Datei wetter_13m.csv]({{{appinstanz.apiurls.1}}})",
         "",
         "Angezeigt werden die in der Quelle vorhandenen Messwerte; Verfügbarkeit und Aktualität hängen vom Pflegestand der Quelle ab. Der direkte Abruf setzt CORS-Freigabe der Quelle voraus.",
         "",
@@ -153,253 +39,370 @@
         "- [Open Data App Store](https://open-data-app-store.de/) – die Plattform für Open Data Apps",
         "- [Alle Open Data Apps auf GitHub](https://github.com/open-data-apps) – die Organisation mit allen Apps",
         "- [odas-app-klimastationen-bw](https://github.com/open-data-apps/odas-app-klimastationen-bw) – das Repository dieser App"
-      ],
-      "erforderlich": "ja"
+    ],
+    "tags-funktion": [
+        "Datenvisualisierung"
+    ],
+    "tags-dateityp": [
+        "CSV"
+    ],
+    "tags-datenart": [
+        "Klima",
+        "Wetter"
+    ],
+    "screenshots": [
+        "assets/Desktop_Screenshot.png",
+        "assets/Mobile_Screenshot.png"
+    ],
+    "daten": {
+        "beschreibung": "Die App verarbeitet Klimadaten aus konfigurierbaren Open-Data-Ressourcen (z.B. CSV-Endpunkte) und bereitet sie als Kennzahlen, Diagramm und Tabelle auf.",
+        "schema": "assets/schema.json",
+        "beispiel": "",
+        "beispiel-url": ""
     },
-    "impressum": {
-      "label": "Impressum",
-      "category": "kontakt-rechtliches",
-      "hilfe": "Der Text wird im Menüpunkt 'Impressum' anzeigt",
-      "format": {
-        "typ": "markdown"
-      },
-      "default": [
-        "_multiline_",
-        "## Anbieter",
-        "",
-        "{{{odp.anbieter.orgName}}}  ",
-        "{{{odp.anbieter.orgUnit}}}",
-        "",
-        "{{odp.anbieter.strasse}}  ",
-        "{{odp.anbieter.plzort}}",
-        "",
-        "Website: [{{odp.anbieter.url}}]({{odp.anbieter.url}})",
-        "",
-        "## Ansprechpartner",
-        "",
-        "{{odp.anbieter.kontakt-bezeichnung}}  ",
-        "{{odp.anbieter.name}}",
-        "",
-        "## Kontakt",
-        "",
-        "Tel.: {{odp.anbieter.tel}}  ",
-        "E-Mail: [{{odp.anbieter.email}}](mailto:{{odp.anbieter.email}})"
-      ],
-      "erforderlich": "ja"
-    },
-    "datenschutz": {
-      "label": "Datenschutz",
-      "category": "kontakt-rechtliches",
-      "hilfe": "Der Text wird im Menüpunkt 'Datenschutz' anzeigt",
-      "format": {
-        "typ": "markdown"
-      },
-      "default": [
-        "_multiline_",
-        "Diese App verarbeitet die angezeigten offenen Daten ausschließlich im Browser. Es werden keine Cookies gesetzt, keine Nutzungsstatistiken erhoben und keine Daten im Browser gespeichert.",
-        "",
-        "Alle für die Darstellung benötigten Programmbibliotheken werden mit der App ausgeliefert. Beim Aufruf werden dafür keine externen Server kontaktiert.",
-        "",
-        "Die angezeigten Daten werden vom Browser direkt aus der konfigurierten Datenquelle geladen. Dabei werden technisch bedingt IP-Adresse und Browserkennung an deren Betreiber übermittelt. Bei aktiviertem ODAS-Proxy (`proxyAktiv: ja`) werden Anfragen stattdessen über den Server des App-Stores geleitet."
-      ],
-      "erforderlich": "ja"
-    },
-    "urlDaten": {
-      "label": "URL zum Datensatz im ODP",
-      "category": "datenherkunft",
-      "hilfe": "Der Datensatz im Open Data Portal mit den Daten der Klimastationen App",
-      "format": {
-        "typ": "url"
-      },
-      "default": "https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend",
-      "beispiel": "",
-      "erforderlich": "ja"
-    },
-    "fusszeile": {
-      "label": "Fußzeile",
-      "category": "kontakt-rechtliches",
-      "hilfe": "Wird auf der Website unten in der Fusszeile angezeigt.",
-      "format": {
-        "typ": "string",
-        "laenge": 50
-      },
-      "default": "(C) Copyright {{jahr}} | App & Daten: {{odp.anbieter.name}} | App-Entwickler: {{app.developer.name}} | ODAS: {{odas.betreiber.name}}",
-      "erforderlich": "ja"
-    },
-    "apiurls": {
-      "label": "URLs zu Datenressourcen",
-      "category": "datenherkunft",
-      "hilfe": "Direkter Download-, Datei- oder API-Endpunkt der tatsächlich verwendeten Datenquelle(n). Mehrere Einträge möglich.",
-      "typ": "array",
-      "format": {
-        "typ": "url",
-        "laenge": 500
-      },
-      "urls": [
-        {
-          "name": "klimastationen",
-          "label": "URL zu den Daten",
-          "default": "https://web1.karlsruhe.de/klima/file/wetter_13m.csv",
-          "beispiel": "",
-          "erforderlich": "ja"
+    "branding-css": "",
+    "api-version": "1",
+    "instanz-config": {
+        "seitentitel": {
+            "label": "Seitentitel",
+            "category": "allgemein",
+            "hilfe": "Der Seitentitel wird im Browser-Tab der App angezeigt",
+            "default": "Klimastationen",
+            "format": {
+                "typ": "string",
+                "laenge": 50
+            },
+            "erforderlich": "ja"
+        },
+        "titel": {
+            "label": "Titel",
+            "category": "allgemein",
+            "hilfe": "Der Titel wird in der Titelzeile der App angezeigt",
+            "default": "Klimastationen",
+            "format": {
+                "typ": "string",
+                "laenge": 50
+            },
+            "erforderlich": "ja"
+        },
+        "icon": {
+            "label": "App-Icon",
+            "category": "allgemein",
+            "hilfe": "Das Icon wird links oben in der Titelzeile angezeigt",
+            "default": "{{{odp.logo}}}",
+            "format": {
+                "typ": "image",
+                "hoehe": 100,
+                "breite": 300
+            },
+            "erforderlich": "ja"
+        },
+        "kontakt": {
+            "label": "Kontakt",
+            "category": "kontakt-rechtliches",
+            "hilfe": "Der Text wird im Menüpunkt 'Kontakt' anzeigt",
+            "format": {
+                "typ": "markdown"
+            },
+            "default": [
+                "_multiline_",
+                "Sie sind zufrieden mit der App oder haben Anregungen, Verbesserungen oder Hinweise, die Sie uns mitteilen möchten?",
+                "",
+                "Dann richten Sie sich gerne an uns. Wir freuen uns über alle Nachrichten. Ihre Nachrichten können Sie uns mitteilen über:",
+                "",
+                "- Tel.: [{{odp.anbieter.tel}}](tel:{{odp.anbieter.tel}})",
+                "- E-Mail: [{{odp.anbieter.email}}](mailto:{{odp.anbieter.email}})"
+            ],
+            "erforderlich": "ja"
+        },
+        "beschreibung": {
+            "label": "Beschreibung",
+            "category": "beschreibung",
+            "hilfe": "Der Text wird im Menüpunkt 'Über diese App' angezeigt",
+            "format": {
+                "typ": "markdown"
+            },
+            "default": [
+                "_multiline_",
+                "Die Klimastationen-App zeigt Wetter- und Klimadaten einer konfigurierten Messstation als Kennzahlen, Diagramm und Tabelle.",
+                "",
+                "Sie macht die von der Quelle gelieferten Messwerte verständlich sichtbar. Für wen ist diese App? Sie richtet sich an Bürger:innen, Umwelt- und Klimaschutzstellen, Verwaltung, Bildung und Medien, die lokale Klimadaten verständlich darstellen möchten – besondere Datenkenntnisse sind für die Nutzung nicht erforderlich.",
+                "",
+                "## Methodik",
+                "",
+                "Die App ruft die in `apiurls.klimastationen` konfigurierte CSV-Datei im Browser ab; Standard ist der Direktabruf. Mit dem Konfigurationsschalter `proxyAktiv: ja` werden Anfragen stattdessen über den ODAS-Proxy des App-Stores geleitet (nur im ODAS-Live-System verfügbar). Die URL wird mit `new URL(csvUrl, window.location.href)` aufgelöst und per `fetch` geladen; der Abruf setzt voraus, dass die Quelle für Browser-Abfragen erreichbar ist und die CORS-Freigabe (`Access-Control-Allow-Origin`) gewährt.",
+                "",
+                "Das Parsen erfolgt mit PapaParse (`header: true`, `skipEmptyLines: \"greedy\"`, Header `trim()`), Werte werden getrimmt und vollständig numerische Felder als Zahlen übernommen, Datumsspalten bleiben Text. Erwartet werden die von der Quelle gelieferten Wetterspalten wie `Datum`, `Mittlere_Temperatur`, `Temp_max`, `Temp_min`, `Regen_mm`, `Strahlung_ W/m²`, `Mittlere_Windgeschwindigkeit_km/h`, `Windboen_km/h`, `Richtung`, `Mittlerer_Luftdruck_hPa`, `Mittlere_Luftfeuchte`, `Taupunkt` und `Sonnenscheindauer_Min`; der Monatsfilter leitet `YYYY-MM` direkt aus `Datum` (erste 7 Zeichen, `substring(0, 7)`) ab.",
+                "",
+                "Aus den geladenen Zeilen berechnet die App Kennzahlen (Messtage, Mittelwerte, Maxima, Summen wie Gesamtregen und Sonnenscheindauer), vier Diagramme (Temperatur, Wind, Niederschlag, Klima) und eine paginierte Tabelle (25 Zeilen pro Seite); Filter Monat und Paginierung arbeiten ausschließlich auf dem gelieferten Bestand. Die Quelle wird als 13-Monats-Rückblick beschrieben; die App selbst erzwingt keine feste Zeitspanne und trifft keine Zusagen zu Aktualität, Vollständigkeit oder zur dauerhaften Verfügbarkeit bzw. CORS-Freigabe der Quelle. Für die Darstellung benötigte Bibliotheken (Bootstrap, Chart.js, PapaParse) werden lokal aus `app/vendor/` ausgeliefert, beim Datenabruf wird jedoch der konfigurierte CSV-Host (`web1.karlsruhe.de`) kontaktiert.",
+                "",
+                "## Datenquelle",
+                "",
+                "Die Daten stammen aus offenen CSV-Dateien der Stadt Karlsruhe und werden über das Transparenzportal bereitgestellt. Die App lädt die in `apiurls.klimastationen` konfigurierte URL.",
+                "",
+                "- **Open Data Portal:** [Transparenzportal Karlsruhe](https://transparenz.karlsruhe.de)",
+                "- **Datensatz:** [Wetterdaten 13 Monate rückwirkend]({{{appinstanz.urlDaten}}})",
+                "- **Ressource/API-Endpunkt:** [CSV-Datei wetter_13m.csv]({{{appinstanz.apiurls.1}}})",
+                "",
+                "Angezeigt werden die in der Quelle vorhandenen Messwerte; Verfügbarkeit und Aktualität hängen vom Pflegestand der Quelle ab. Der direkte Abruf setzt CORS-Freigabe der Quelle voraus.",
+                "",
+                "## Open Data App",
+                "",
+                "Diese App ist eine Open Data App und kann im [Open Data App Store](https://open-data-app-store.de/) betrieben werden. Sie ist Open Source und lässt sich mit Wetter- oder Klimadaten anderer Kommunen konfigurieren.",
+                "",
+                "- [Open Data App Store](https://open-data-app-store.de/) – die Plattform für Open Data Apps",
+                "- [Alle Open Data Apps auf GitHub](https://github.com/open-data-apps) – die Organisation mit allen Apps",
+                "- [odas-app-klimastationen-bw](https://github.com/open-data-apps/odas-app-klimastationen-bw) – das Repository dieser App"
+            ],
+            "erforderlich": "ja"
+        },
+        "impressum": {
+            "label": "Impressum",
+            "category": "kontakt-rechtliches",
+            "hilfe": "Der Text wird im Menüpunkt 'Impressum' anzeigt",
+            "format": {
+                "typ": "markdown"
+            },
+            "default": [
+                "_multiline_",
+                "## Anbieter",
+                "",
+                "{{{odp.anbieter.orgName}}}  ",
+                "{{{odp.anbieter.orgUnit}}}",
+                "",
+                "{{odp.anbieter.strasse}}  ",
+                "{{odp.anbieter.plzort}}",
+                "",
+                "Website: [{{odp.anbieter.url}}]({{odp.anbieter.url}})",
+                "",
+                "## Ansprechpartner",
+                "",
+                "{{odp.anbieter.kontakt-bezeichnung}}  ",
+                "{{odp.anbieter.name}}",
+                "",
+                "## Kontakt",
+                "",
+                "Tel.: {{odp.anbieter.tel}}  ",
+                "E-Mail: [{{odp.anbieter.email}}](mailto:{{odp.anbieter.email}})"
+            ],
+            "erforderlich": "ja"
+        },
+        "datenschutz": {
+            "label": "Datenschutz",
+            "category": "kontakt-rechtliches",
+            "hilfe": "Der Text wird im Menüpunkt 'Datenschutz' anzeigt",
+            "format": {
+                "typ": "markdown"
+            },
+            "default": [
+                "_multiline_",
+                "Diese App verarbeitet die angezeigten offenen Daten ausschließlich im Browser. Es werden keine Cookies gesetzt, keine Nutzungsstatistiken erhoben und keine Daten im Browser gespeichert.",
+                "",
+                "Alle für die Darstellung benötigten Programmbibliotheken werden mit der App ausgeliefert. Beim Aufruf werden dafür keine externen Server kontaktiert.",
+                "",
+                "Die angezeigten Daten werden vom Browser direkt aus der konfigurierten Datenquelle geladen. Dabei werden technisch bedingt IP-Adresse und Browserkennung an deren Betreiber übermittelt. Bei aktiviertem ODAS-Proxy (`proxyAktiv: ja`) werden Anfragen stattdessen über den Server des App-Stores geleitet."
+            ],
+            "erforderlich": "ja"
+        },
+        "urlDaten": {
+            "label": "URL zum Datensatz im ODP",
+            "category": "datenherkunft",
+            "hilfe": "Der Datensatz im Open Data Portal mit den Daten der Klimastationen App",
+            "format": {
+                "typ": "url"
+            },
+            "default": "https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend",
+            "beispiel": "",
+            "erforderlich": "ja"
+        },
+        "fusszeile": {
+            "label": "Fußzeile",
+            "category": "kontakt-rechtliches",
+            "hilfe": "Wird auf der Website unten in der Fusszeile angezeigt.",
+            "format": {
+                "typ": "string",
+                "laenge": 50
+            },
+            "default": "(C) Copyright {{jahr}} | App & Daten: {{odp.anbieter.name}} | App-Entwickler: {{app.developer.name}} | ODAS: {{odas.betreiber.name}}",
+            "erforderlich": "ja"
+        },
+        "apiurls": {
+            "label": "URLs zu Datenressourcen",
+            "category": "datenherkunft",
+            "hilfe": "Direkter Download-, Datei- oder API-Endpunkt der tatsächlich verwendeten Datenquelle(n). Mehrere Einträge möglich.",
+            "typ": "array",
+            "format": {
+                "typ": "url",
+                "laenge": 500
+            },
+            "urls": [
+                {
+                    "name": "klimastationen",
+                    "label": "URL zu den Daten",
+                    "default": "https://web1.karlsruhe.de/klima/file/wetter_13m.csv",
+                    "beispiel": "",
+                    "erforderlich": "ja"
+                }
+            ]
+        },
+        "proxyAktiv": {
+            "label": "ODAS-Proxy aktivieren",
+            "category": "datenherkunft",
+            "hilfe": "Mit ja werden Datenabrufe über den ODAS-Proxy gesendet. Die konfigurierte Datenquelle (web1.karlsruhe.de) sendet keinen CORS-Header, deshalb ist ja hier der Standard. Nur mit einer CORS-freigegebenen Datenquelle kann auf nein umgestellt und die App standalone betrieben werden.",
+            "default": "ja",
+            "format": {
+                "typ": "dropdown",
+                "optionen": [
+                    "nein",
+                    "ja"
+                ]
+            },
+            "erforderlich": "ja"
+        },
+        "weiterfuehrendeLinks": {
+            "label": "Weiterführende Links",
+            "category": "beschreibung",
+            "hilfe": "Verwandte Datensätze / Hintergrundquellen (HTML/Markdown). Leer = ausgeblendet.",
+            "format": {
+                "typ": "markdown"
+            },
+            "default": "- [Wetterdaten Karlsruhe (Transparenzportal)](https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend)\n- [Deutscher Wetterdienst (DWD)](https://www.dwd.de/)",
+            "erforderlich": "nein"
+        },
+        "datenquelleHinweis": {
+            "label": "Methodik / Datenquelle-Hinweis",
+            "category": "beschreibung",
+            "hilfe": "Herkunft, Erhebungsmethode und Limitierungen (HTML/Markdown). Leer = ausgeblendet.",
+            "format": {
+                "typ": "markdown"
+            },
+            "default": "Die Wetterdaten stammen vom [Deutschen Wetterdienst (DWD)](https://www.dwd.de/) und werden über das [Transparenzportal Karlsruhe](https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend) als 13-Monats-Rückblick bereitgestellt. Angezeigt werden Temperatur, Regen, Wind, Luftdruck, Luftfeuchte und Sonnenscheindauer der konfigurierten Messstation.\n\nVollständigkeit und Aktualität hängen vom Bereitstellungsintervall der Datenquelle ab.",
+            "erforderlich": "nein"
+        },
+        "datenStand": {
+            "label": "Datenstand",
+            "category": "beschreibung",
+            "hilfe": "Freitext-Hinweis zum Stand der Daten. Leer = ausgeblendet.",
+            "format": {
+                "typ": "string"
+            },
+            "default": "Stand: 13-Monats-Rückblick (DWD via Transparenzportal Karlsruhe)",
+            "erforderlich": "nein"
+        },
+        "kpiKontext1": {
+            "label": "KPI-Erklärung: Messtage",
+            "category": "beschreibung",
+            "hilfe": "Erklärtext unter dem KPI 'Messtage'. Leer = ausgeblendet.",
+            "format": {
+                "typ": "string"
+            },
+            "default": "Anzahl der Tage mit Messwerten im gewählten Zeitraum.",
+            "erforderlich": "nein"
+        },
+        "kpiKontext2": {
+            "label": "KPI-Erklärung: Ø Temperatur",
+            "category": "beschreibung",
+            "hilfe": "Erklärtext unter dem KPI 'Ø Temperatur'. Leer = ausgeblendet.",
+            "format": {
+                "typ": "string"
+            },
+            "default": "Durchschnitt der Tagesmitteltemperaturen.",
+            "erforderlich": "nein"
+        },
+        "kpiKontext3": {
+            "label": "KPI-Erklärung: Max. Temperatur",
+            "category": "beschreibung",
+            "hilfe": "Erklärtext unter dem KPI 'Max. Temperatur'. Leer = ausgeblendet.",
+            "format": {
+                "typ": "string"
+            },
+            "default": "Höchste gemessene Temperatur im Zeitraum.",
+            "erforderlich": "nein"
+        },
+        "kpiKontext4": {
+            "label": "KPI-Erklärung: Gesamtregen",
+            "category": "beschreibung",
+            "hilfe": "Erklärtext unter dem KPI 'Gesamtregen'. Leer = ausgeblendet.",
+            "format": {
+                "typ": "string"
+            },
+            "default": "Summe aller Niederschläge im Zeitraum.",
+            "erforderlich": "nein"
+        },
+        "kpiKontext5": {
+            "label": "KPI-Erklärung: Max. Windböe",
+            "category": "beschreibung",
+            "hilfe": "Erklärtext unter dem KPI 'Max. Windböe'. Leer = ausgeblendet.",
+            "format": {
+                "typ": "string"
+            },
+            "default": "Stärkste gemessene Windböe im Zeitraum.",
+            "erforderlich": "nein"
+        },
+        "kpiKontext6": {
+            "label": "KPI-Erklärung: Ø Luftdruck",
+            "category": "beschreibung",
+            "hilfe": "Erklärtext unter dem KPI 'Ø Luftdruck'. Leer = ausgeblendet.",
+            "format": {
+                "typ": "string"
+            },
+            "default": "Durchschnitt des Tagesmittels des Luftdrucks.",
+            "erforderlich": "nein"
+        },
+        "kpiKontext7": {
+            "label": "KPI-Erklärung: Ø Luftfeuchte",
+            "category": "beschreibung",
+            "hilfe": "Erklärtext unter dem KPI 'Ø Luftfeuchte'. Leer = ausgeblendet.",
+            "format": {
+                "typ": "string"
+            },
+            "default": "Durchschnitt der Tagesmittel der relativen Luftfeuchte.",
+            "erforderlich": "nein"
+        },
+        "kpiKontext8": {
+            "label": "KPI-Erklärung: Sonnenschein ges.",
+            "category": "beschreibung",
+            "hilfe": "Erklärtext unter dem KPI 'Sonnenschein gesamt'. Leer = ausgeblendet.",
+            "format": {
+                "typ": "string"
+            },
+            "default": "Summe der Sonnenscheindauer im Zeitraum in Stunden.",
+            "erforderlich": "nein"
+        },
+        "sprache": {
+            "label": "Sprache der App",
+            "category": "allgemein",
+            "hilfe": "Angabe der App-Sprache",
+            "default": "de",
+            "format": {
+                "typ": "dropdown",
+                "optionen": [
+                    "de"
+                ]
+            },
+            "erforderlich": "ja"
+        },
+        "brandingCSS": {
+            "label": "Zusätzliches Branding-CSS",
+            "category": "sonstiges",
+            "hilfe": "Optionaler CSS-Code für die konkrete App-Instanz.",
+            "default": "",
+            "format": {
+                "typ": "string",
+                "laenge": 10000
+            },
+            "erforderlich": "nein"
+        },
+        "brandingCSSFile": {
+            "label": "Branding-CSS-Datei",
+            "category": "sonstiges",
+            "hilfe": "Optionale URL zu einer zusätzlichen CSS-Datei für die konkrete App-Instanz.",
+            "default": "",
+            "format": {
+                "typ": "url",
+                "laenge": 500
+            },
+            "erforderlich": "nein"
         }
-      ]
-    },
-    "proxyAktiv": {
-      "label": "ODAS-Proxy aktivieren",
-      "category": "datenherkunft",
-      "hilfe": "Mit ja werden Datenabrufe über den ODAS-Proxy gesendet. Die konfigurierte Datenquelle (web1.karlsruhe.de) sendet keinen CORS-Header, deshalb ist ja hier der Standard. Nur mit einer CORS-freigegebenen Datenquelle kann auf nein umgestellt und die App standalone betrieben werden.",
-      "default": "ja",
-      "format": {
-        "typ": "dropdown",
-        "optionen": ["nein", "ja"]
-      },
-      "erforderlich": "ja"
-    },
-    "weiterfuehrendeLinks": {
-      "label": "Weiterführende Links",
-      "category": "beschreibung",
-      "hilfe": "Verwandte Datensätze / Hintergrundquellen (HTML/Markdown). Leer = ausgeblendet.",
-      "format": {
-        "typ": "markdown"
-      },
-      "default": "- [Wetterdaten Karlsruhe (Transparenzportal)](https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend)\n- [Deutscher Wetterdienst (DWD)](https://www.dwd.de/)",
-      "erforderlich": "nein"
-    },
-    "datenquelleHinweis": {
-      "label": "Methodik / Datenquelle-Hinweis",
-      "category": "beschreibung",
-      "hilfe": "Herkunft, Erhebungsmethode und Limitierungen (HTML/Markdown). Leer = ausgeblendet.",
-      "format": {
-        "typ": "markdown"
-      },
-      "default": "Die Wetterdaten stammen vom [Deutschen Wetterdienst (DWD)](https://www.dwd.de/) und werden über das [Transparenzportal Karlsruhe](https://transparenz.karlsruhe.de/dataset/wetterdaten-13-monate-ruckwirkend) als 13-Monats-Rückblick bereitgestellt. Angezeigt werden Temperatur, Regen, Wind, Luftdruck, Luftfeuchte und Sonnenscheindauer der konfigurierten Messstation.\n\nVollständigkeit und Aktualität hängen vom Bereitstellungsintervall der Datenquelle ab.",
-      "erforderlich": "nein"
-    },
-    "datenStand": {
-      "label": "Datenstand",
-      "category": "beschreibung",
-      "hilfe": "Freitext-Hinweis zum Stand der Daten. Leer = ausgeblendet.",
-      "format": {
-        "typ": "string"
-      },
-      "default": "Stand: 13-Monats-Rückblick (DWD via Transparenzportal Karlsruhe)",
-      "erforderlich": "nein"
-    },
-    "kpiKontext1": {
-      "label": "KPI-Erklärung: Messtage",
-      "category": "beschreibung",
-      "hilfe": "Erklärtext unter dem KPI 'Messtage'. Leer = ausgeblendet.",
-      "format": {
-        "typ": "string"
-      },
-      "default": "Anzahl der Tage mit Messwerten im gewählten Zeitraum.",
-      "erforderlich": "nein"
-    },
-    "kpiKontext2": {
-      "label": "KPI-Erklärung: Ø Temperatur",
-      "category": "beschreibung",
-      "hilfe": "Erklärtext unter dem KPI 'Ø Temperatur'. Leer = ausgeblendet.",
-      "format": {
-        "typ": "string"
-      },
-      "default": "Durchschnitt der Tagesmitteltemperaturen.",
-      "erforderlich": "nein"
-    },
-    "kpiKontext3": {
-      "label": "KPI-Erklärung: Max. Temperatur",
-      "category": "beschreibung",
-      "hilfe": "Erklärtext unter dem KPI 'Max. Temperatur'. Leer = ausgeblendet.",
-      "format": {
-        "typ": "string"
-      },
-      "default": "Höchste gemessene Temperatur im Zeitraum.",
-      "erforderlich": "nein"
-    },
-    "kpiKontext4": {
-      "label": "KPI-Erklärung: Gesamtregen",
-      "category": "beschreibung",
-      "hilfe": "Erklärtext unter dem KPI 'Gesamtregen'. Leer = ausgeblendet.",
-      "format": {
-        "typ": "string"
-      },
-      "default": "Summe aller Niederschläge im Zeitraum.",
-      "erforderlich": "nein"
-    },
-    "kpiKontext5": {
-      "label": "KPI-Erklärung: Max. Windböe",
-      "category": "beschreibung",
-      "hilfe": "Erklärtext unter dem KPI 'Max. Windböe'. Leer = ausgeblendet.",
-      "format": {
-        "typ": "string"
-      },
-      "default": "Stärkste gemessene Windböe im Zeitraum.",
-      "erforderlich": "nein"
-    },
-    "kpiKontext6": {
-      "label": "KPI-Erklärung: Ø Luftdruck",
-      "category": "beschreibung",
-      "hilfe": "Erklärtext unter dem KPI 'Ø Luftdruck'. Leer = ausgeblendet.",
-      "format": {
-        "typ": "string"
-      },
-      "default": "Durchschnitt des Tagesmittels des Luftdrucks.",
-      "erforderlich": "nein"
-    },
-    "kpiKontext7": {
-      "label": "KPI-Erklärung: Ø Luftfeuchte",
-      "category": "beschreibung",
-      "hilfe": "Erklärtext unter dem KPI 'Ø Luftfeuchte'. Leer = ausgeblendet.",
-      "format": {
-        "typ": "string"
-      },
-      "default": "Durchschnitt der Tagesmittel der relativen Luftfeuchte.",
-      "erforderlich": "nein"
-    },
-    "kpiKontext8": {
-      "label": "KPI-Erklärung: Sonnenschein ges.",
-      "category": "beschreibung",
-      "hilfe": "Erklärtext unter dem KPI 'Sonnenschein gesamt'. Leer = ausgeblendet.",
-      "format": {
-        "typ": "string"
-      },
-      "default": "Summe der Sonnenscheindauer im Zeitraum in Stunden.",
-      "erforderlich": "nein"
-    },
-    "sprache": {
-      "label": "Sprache der App",
-      "category": "allgemein",
-      "hilfe": "Angabe der App-Sprache",
-      "default": "de",
-      "format": {
-        "typ": "dropdown",
-        "optionen": [
-          "de"
-        ]
-      },
-      "erforderlich": "ja"
-    },
-    "brandingCSS": {
-      "label": "Zusätzliches Branding-CSS",
-      "category": "sonstiges",
-      "hilfe": "Optionaler CSS-Code für die konkrete App-Instanz.",
-      "default": "",
-      "format": {
-        "typ": "string",
-        "laenge": 10000
-      },
-      "erforderlich": "nein"
-    },
-    "brandingCSSFile": {
-      "label": "Branding-CSS-Datei",
-      "category": "sonstiges",
-      "hilfe": "Optionale URL zu einer zusätzlichen CSS-Datei für die konkrete App-Instanz.",
-      "default": "",
-      "format": {
-        "typ": "url",
-        "laenge": 500
-      },
-      "erforderlich": "nein"
     }
-  }
 }
