@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.32.1 - 2026-09-07
+- **FIX:** Frictionless-Härtung: `assets/schema.json` mit Titeln, echten Typen (`datetime`/`number`) und Fachbeschreibungen; `daten.beispiel`/`beispiel-url` befüllt (Karlsruhe-CSV, direkt ladbar).
+
 ## 1.32.0 - 2026-09-01
 - **FIX:** B3-Datenschutz auf `proxyAktiv: ja` korrigiert (`über den ODAS-Proxy geladen` statt Direkt-Formulierung) in `app-package.json`/`odas-config/config.json`/`README` — `doku-check` B3 grün (F-76-Nachbesserung).
 

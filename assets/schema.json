@@ -5,104 +5,118 @@
   "fields": [
     {
       "name": "Datum",
-      "type": "string",
-      "description": "Optionales Feld",
+      "title": "Datum/Zeit",
+      "type": "datetime",
+      "format": "%Y-%m-%d %H:%M:%S",
+      "description": "Messzeitpunkt im Format JJJJ-MM-TT HH:MM:SS (Ortszeit der Station).",
       "constraints": {
         "required": false
       }
     },
     {
       "name": "Mittlere_Temperatur",
-      "type": "string",
-      "description": "Optionales Feld",
+      "title": "Mittlere Temperatur (°C)",
+      "type": "number",
+      "description": "Mittlere Lufttemperatur im Messintervall in Grad Celsius.",
       "constraints": {
         "required": false
       }
     },
     {
       "name": "Temp_max",
-      "type": "string",
-      "description": "Optionales Feld",
+      "title": "Maximaltemperatur (°C)",
+      "type": "number",
+      "description": "Höchste Lufttemperatur im Messintervall in Grad Celsius.",
       "constraints": {
         "required": false
       }
     },
     {
       "name": "Temp_min",
-      "type": "string",
-      "description": "Optionales Feld",
+      "title": "Minimaltemperatur (°C)",
+      "type": "number",
+      "description": "Tiefste Lufttemperatur im Messintervall in Grad Celsius.",
       "constraints": {
         "required": false
       }
     },
     {
       "name": "Regen_mm",
-      "type": "string",
-      "description": "Optionales Feld",
+      "title": "Niederschlag (mm)",
+      "type": "number",
+      "description": "Niederschlagsmenge im Messintervall in Millimetern.",
       "constraints": {
         "required": false
       }
     },
     {
       "name": "Strahlung_ W/m²",
-      "type": "string",
-      "description": "Optionales Feld",
+      "title": "Globalstrahlung (W/m²)",
+      "type": "number",
+      "description": "Mittlere Globalstrahlung im Messintervall in Watt pro Quadratmeter.",
       "constraints": {
         "required": false
       }
     },
     {
       "name": "Mittlere_Windgeschwindigkeit_km/h",
-      "type": "string",
-      "description": "Optionales Feld",
+      "title": "Mittlere Windgeschwindigkeit (km/h)",
+      "type": "number",
+      "description": "Mittlere Windgeschwindigkeit im Messintervall in Kilometern pro Stunde.",
       "constraints": {
         "required": false
       }
     },
     {
       "name": "Windboen_km/h",
-      "type": "string",
-      "description": "Optionales Feld",
+      "title": "Windböen (km/h)",
+      "type": "number",
+      "description": "Stärkste Windböe im Messintervall in Kilometern pro Stunde.",
       "constraints": {
         "required": false
       }
     },
     {
       "name": "Richtung",
-      "type": "string",
-      "description": "Optionales Feld",
+      "title": "Windrichtung (Grad)",
+      "type": "number",
+      "description": "Mittlere Windrichtung im Messintervall in Grad (0–360).",
       "constraints": {
         "required": false
       }
     },
     {
       "name": "Mittlerer_Luftdruck_hPa",
-      "type": "string",
-      "description": "Optionales Feld",
+      "title": "Mittlerer Luftdruck (hPa)",
+      "type": "number",
+      "description": "Mittlerer Luftdruck im Messintervall in Hektopascal.",
       "constraints": {
         "required": false
       }
     },
     {
       "name": "Mittlere_Luftfeuchte",
-      "type": "string",
-      "description": "Optionales Feld",
+      "title": "Mittlere Luftfeuchte (%)",
+      "type": "number",
+      "description": "Mittlere relative Luftfeuchte im Messintervall in Prozent.",
       "constraints": {
         "required": false
       }
     },
     {
       "name": "Taupunkt",
-      "type": "string",
-      "description": "Optionales Feld",
+      "title": "Taupunkt (°C)",
+      "type": "number",
+      "description": "Taupunkttemperatur im Messintervall in Grad Celsius.",
       "constraints": {
         "required": false
       }
     },
     {
       "name": "Sonnenscheindauer_Min",
-      "type": "string",
-      "description": "Optionales Feld",
+      "title": "Sonnenscheindauer (Min)",
+      "type": "number",
+      "description": "Sonnenscheindauer im Messintervall in Minuten.",
       "constraints": {
         "required": false
       }
