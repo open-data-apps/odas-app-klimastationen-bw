@@ -618,8 +618,20 @@ function app(configdata = {}, enclosingHtmlDivElement) {
 
   // ── Daten laden ────────────────────────────────────────────────────
   async function loadData() {
+    const klKontext = {
+      url: apiurl,
+      label: "Klimastationen-CSV",
+      typLabel: "Statische Datei",
+      erwarteterTyp: "csv-zip",
+    };
     if (!apiurl) {
-      renderKlimaInfo("Es ist keine Datenquelle konfiguriert.");
+      renderOdasFehler(root, new Error("Keine Datenquelle konfiguriert."), klKontext);
+      return;
+    }
+    // Variante A (F-92): Typprüfung vor dem ersten Fetch.
+    const klTypWarn = validateUrlTypErwartung(apiurl, "csv-zip");
+    if (klTypWarn) {
+      renderOdasFehler(root, new Error(klTypWarn), klKontext);
       return;
     }
     setStatus("Lade Daten …");
@@ -644,7 +656,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       applyFilter();
     } catch (e) {
       if (disposed) return;
-      renderKlimaError("Fehler beim Laden der Daten: " + e.message);
+      renderOdasFehler(root, e, klKontext);
     }
   }
 

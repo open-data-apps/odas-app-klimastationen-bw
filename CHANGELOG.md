@@ -1,6 +1,7 @@
 # Changelog
 
 ## 1.32.1 - 2026-09-07
+- **FIX:** Variante-A-Verdrahtung (F-92): Typprüfung (csv-zip/statische Datei) vor dem ersten Fetch; Quellen- und Ladefehler über `renderOdasFehler`; Fixture typkonform (1.32.1 -> 1.32.2).
 - **FIX:** Frictionless-Härtung: `assets/schema.json` mit Titeln, echten Typen (`datetime`/`number`) und Fachbeschreibungen; `daten.beispiel`/`beispiel-url` befüllt (Karlsruhe-CSV, direkt ladbar).
 
 ## 1.32.0 - 2026-09-01
