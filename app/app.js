@@ -254,16 +254,6 @@ function renderOdasFehler(container, error, kontext = {}) {
   container.innerHTML = `<div class="alert ${alertClass}" role="alert"><strong>${escapeHtml(titel)}</strong><p class="mb-1">${escapeHtml(info.hinweis)}</p>${urlZeile}<details class="small"><summary>Details</summary><code>${escapeHtml(info.detail || String(error))}</code></details></div>`;
 }
 
-function isLeerErgebnis(json) {
-  if (!json) return true;
-  if (Array.isArray(json) && json.length === 0) return true;
-  if (Array.isArray(json.records) && json.records.length === 0) return true;
-  if (Array.isArray(json.results) && json.results.length === 0) return true;
-  if (json.result && Array.isArray(json.result.records) && json.result.records.length === 0) return true;
-  return false;
-}
-
-
 // PapaParse (CSV-Parsing) dynamisch aus app/vendor laden; Promise-basiert.
 function ensurePapaparse() {
   return new Promise((resolve, reject) => {
@@ -342,59 +332,80 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   enclosingHtmlDivElement.innerHTML = `
     <div class="container-fluid px-0">
       <h2 class="mb-3">${escapeHtml(titel)}</h2>
-      <div id="klima-datenstand" class="text-muted small mb-3"></div>
+      <div id="klima-datenstand-${klimaUid}" class="text-muted small mb-3"></div>
 
       <!-- KPI-Zeile 1 -->
       <div class="row g-3 mb-2">
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm">
           <div class="card-body py-2"><div class="text-muted small">Messtage</div>
-          <div class="fs-3 fw-bold" id="klima-kpi-tage">–</div>${kk(1)}</div></div></div>
+          <div class="fs-3 fw-bold" id="klima-kpi-tage-${klimaUid}">–</div>${kk(1)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm">
           <div class="card-body py-2"><div class="text-muted small">Ø Temperatur</div>
-          <div class="fs-3 fw-bold" id="klima-kpi-temp-avg">–</div>${kk(2)}</div></div></div>
+          <div class="fs-3 fw-bold" id="klima-kpi-temp-avg-${klimaUid}">–</div>${kk(2)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm bg-danger bg-opacity-10">
           <div class="card-body py-2"><div class="text-muted small">Max. Temperatur</div>
-          <div class="fs-3 fw-bold text-danger" id="klima-kpi-temp-max">–</div>${kk(3)}</div></div></div>
+          <div class="fs-3 fw-bold text-danger" id="klima-kpi-temp-max-${klimaUid}">–</div>${kk(3)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm bg-primary bg-opacity-10">
           <div class="card-body py-2"><div class="text-muted small">Gesamtregen</div>
-          <div class="fs-3 fw-bold text-primary" id="klima-kpi-regen">–</div>${kk(4)}</div></div></div>
+          <div class="fs-3 fw-bold text-primary" id="klima-kpi-regen-${klimaUid}">–</div>${kk(4)}</div></div></div>
       </div>
 
       <!-- KPI-Zeile 2 -->
       <div class="row g-3 mb-4">
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm bg-success bg-opacity-10">
           <div class="card-body py-2"><div class="text-muted small">Max. Windböe</div>
-          <div class="fs-3 fw-bold text-success" id="klima-kpi-wind-max">–</div>${kk(5)}</div></div></div>
+          <div class="fs-3 fw-bold text-success" id="klima-kpi-wind-max-${klimaUid}">–</div>${kk(5)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm">
           <div class="card-body py-2"><div class="text-muted small">Ø Luftdruck</div>
-          <div class="fs-3 fw-bold" id="klima-kpi-druck">–</div>${kk(6)}</div></div></div>
+          <div class="fs-3 fw-bold" id="klima-kpi-druck-${klimaUid}">–</div>${kk(6)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm">
           <div class="card-body py-2"><div class="text-muted small">Ø Luftfeuchte</div>
-          <div class="fs-3 fw-bold" id="klima-kpi-feuchte">–</div>${kk(7)}</div></div></div>
+          <div class="fs-3 fw-bold" id="klima-kpi-feuchte-${klimaUid}">–</div>${kk(7)}</div></div></div>
         <div class="col-6 col-md-3"><div class="card text-center h-100 shadow-sm bg-warning bg-opacity-10">
           <div class="card-body py-2"><div class="text-muted small">Sonnenschein ges.</div>
-          <div class="fs-3 fw-bold text-warning" id="klima-kpi-sonne">–</div>${kk(8)}</div></div></div>
+          <div class="fs-3 fw-bold text-warning" id="klima-kpi-sonne-${klimaUid}">–</div>${kk(8)}</div></div></div>
+      </div>
+
+      <!-- KPI-Zeile 3: Extremwerte -->
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-4"><div class="card text-center h-100 shadow-sm bg-danger bg-opacity-10">
+          <div class="card-body py-2"><div class="text-muted small">Hitzetage (≥ 30 °C)</div>
+          <div class="fs-3 fw-bold text-danger" id="klima-kpi-hitze-${klimaUid}">–</div></div></div></div>
+        <div class="col-6 col-md-4"><div class="card text-center h-100 shadow-sm bg-primary bg-opacity-10">
+          <div class="card-body py-2"><div class="text-muted small">Frosttage (&lt; 0 °C)</div>
+          <div class="fs-3 fw-bold text-primary" id="klima-kpi-frost-${klimaUid}">–</div></div></div></div>
+        <div class="col-6 col-md-4"><div class="card text-center h-100 shadow-sm bg-info bg-opacity-10">
+          <div class="card-body py-2"><div class="text-muted small">Starkregentage (≥ 20 mm)</div>
+          <div class="fs-3 fw-bold text-info" id="klima-kpi-starkregen-${klimaUid}">–</div></div></div></div>
       </div>
 
       <!-- Filter -->
       <div class="row g-2 mb-3">
+        <div class="col-md-2">
+          <select class="form-select" id="klima-filter-jahr-${klimaUid}" aria-label="Jahr filtern">
+            <option value="">Alle Jahre</option>
+          </select>
+        </div>
         <div class="col-md-3">
-          <select class="form-select" id="klima-filter-monat">
+          <select class="form-select" id="klima-filter-monat-${klimaUid}" aria-label="Monat filtern">
             <option value="">Alle Monate</option>
           </select>
         </div>
         <div class="col-md-2">
-          <button class="btn btn-outline-secondary w-100" id="klima-btn-reset">Zurücksetzen</button>
+          <button class="btn btn-outline-secondary w-100" id="klima-btn-reset-${klimaUid}">Zurücksetzen</button>
         </div>
-        <div class="col-md-7 text-end pt-2">
-          <span class="text-muted small" id="klima-status-text"></span>
+        <div class="col-md-2">
+          <button class="btn btn-outline-secondary w-100" id="klima-btn-export-${klimaUid}">CSV-Export</button>
+        </div>
+        <div class="col-md-3 text-end pt-2">
+          <span class="text-muted small" id="klima-status-text-${klimaUid}"></span>
         </div>
       </div>
 
       <!-- Chart-Tabs -->
       <div class="card shadow-sm mb-3">
         <div class="card-header p-0">
-          <ul class="nav nav-tabs card-header-tabs" id="chart-tabs">
+          <ul class="nav nav-tabs card-header-tabs" id="chart-tabs-${klimaUid}">
             <li class="nav-item"><button class="nav-link active px-3 py-2" data-bs-toggle="tab" data-bs-target="#klima-tab-temp-${klimaUid}">🌡️ Temperatur</button></li>
             <li class="nav-item"><button class="nav-link px-3 py-2" data-bs-toggle="tab" data-bs-target="#klima-tab-wind-${klimaUid}">💨 Wind</button></li>
             <li class="nav-item"><button class="nav-link px-3 py-2" data-bs-toggle="tab" data-bs-target="#klima-tab-regen-${klimaUid}">🌧️ Niederschlag</button></li>
@@ -404,16 +415,16 @@ function app(configdata = {}, enclosingHtmlDivElement) {
         <div class="card-body p-3">
           <div class="tab-content">
             <div class="tab-pane fade show active" id="klima-tab-temp-${klimaUid}">
-              <div style="position:relative;height:280px;"><canvas id="klima-chart-temp"></canvas></div>
+              <div style="position:relative;height:280px;"><canvas id="klima-chart-temp-${klimaUid}"></canvas></div>
             </div>
             <div class="tab-pane fade" id="klima-tab-wind-${klimaUid}">
-              <div style="position:relative;height:280px;"><canvas id="klima-chart-wind"></canvas></div>
+              <div style="position:relative;height:280px;"><canvas id="klima-chart-wind-${klimaUid}"></canvas></div>
             </div>
             <div class="tab-pane fade" id="klima-tab-regen-${klimaUid}">
-              <div style="position:relative;height:280px;"><canvas id="klima-chart-regen"></canvas></div>
+              <div style="position:relative;height:280px;"><canvas id="klima-chart-regen-${klimaUid}"></canvas></div>
             </div>
             <div class="tab-pane fade" id="klima-tab-klima-${klimaUid}">
-              <div style="position:relative;height:280px;"><canvas id="klima-chart-klima"></canvas></div>
+              <div style="position:relative;height:280px;"><canvas id="klima-chart-klima-${klimaUid}"></canvas></div>
             </div>
           </div>
         </div>
@@ -423,20 +434,20 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       <div class="card shadow-sm">
         <div class="card-header fw-semibold d-flex justify-content-between align-items-center">
           <span>📋 Tagesdaten</span>
-          <span class="badge bg-secondary" id="klima-record-count">0 Einträge</span>
+          <span class="badge bg-secondary" id="klima-record-count-${klimaUid}">0 Einträge</span>
         </div>
         <div class="card-body p-0">
           <div class="table-responsive">
             <table class="table table-striped table-hover table-sm mb-0 small">
-              <thead class="table-dark" id="klima-tbl-head"></thead>
-              <tbody id="klima-tbl-body"></tbody>
+              <thead class="table-dark" id="klima-tbl-head-${klimaUid}"></thead>
+              <tbody id="klima-tbl-body-${klimaUid}"></tbody>
             </table>
           </div>
         </div>
         <div class="card-footer d-flex justify-content-between align-items-center">
-          <button class="btn btn-outline-secondary btn-sm" id="klima-btn-prev" disabled>‹ Zurück</button>
-          <span id="klima-page-info" class="text-muted small"></span>
-          <button class="btn btn-outline-secondary btn-sm" id="klima-btn-next">Weiter ›</button>
+          <button class="btn btn-outline-secondary btn-sm" id="klima-btn-prev-${klimaUid}" disabled>‹ Zurück</button>
+          <span id="klima-page-info-${klimaUid}" class="text-muted small"></span>
+          <button class="btn btn-outline-secondary btn-sm" id="klima-btn-next-${klimaUid}">Weiter ›</button>
         </div>
       </div>
 
@@ -453,7 +464,14 @@ function app(configdata = {}, enclosingHtmlDivElement) {
 
   // Instanz-Teardown synchron registrieren (VOR jedem Async-Start/loadData):
   // markiert disposed und raeumt alle in `charts` gehaltenen Chart-Instanzen ab.
+  // KL-B1: vorherigen Cleanup zuerst laufen lassen (Same-Page-Re-Render).
   let disposed = false;
+  const klVorheriger = klimaCleanups.get(root);
+  if (klVorheriger) {
+    try {
+      klVorheriger();
+    } catch (_e) {}
+  }
   klimaCleanups.set(root, () => {
     disposed = true;
     Object.values(charts).forEach((c) => {
@@ -473,7 +491,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   }
 
   function renderDatenstand() {
-    const el = root.querySelector("#klima-datenstand");
+    const el = root.querySelector("#klima-datenstand-" + klimaUid);
     if (!el) return;
     let newest = "";
     for (const r of allRows) {
@@ -522,16 +540,16 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     );
   }
   function setStatus(msg) {
-    const el = root.querySelector("#klima-status-text");
+    const el = root.querySelector("#klima-status-text-" + klimaUid);
     if (el) el.textContent = msg;
   }
 
   function renderKlimaError(msg) {
-    let host = root.querySelector("#klima-error-host");
+    let host = root.querySelector("#klima-error-host-" + klimaUid);
     if (!host) {
       host = document.createElement("div");
-      host.id = "klima-error-host";
-      const anchor = root.querySelector("#klima-datenstand");
+      host.id = "klima-error-host-" + klimaUid;
+      const anchor = root.querySelector("#klima-datenstand-" + klimaUid);
       if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(host, anchor.nextSibling);
       else root.prepend(host);
     }
@@ -540,13 +558,13 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   }
 
   function renderKlimaInfo(msg) {
-    let host = root.querySelector("#klima-error-host");
+    let host = root.querySelector("#klima-error-host-" + klimaUid);
     if (host) host.innerHTML = "";
-    let infoHost = root.querySelector("#klima-error-host");
+    let infoHost = root.querySelector("#klima-error-host-" + klimaUid);
     if (!infoHost) {
       infoHost = document.createElement("div");
-      infoHost.id = "klima-error-host";
-      const anchor = root.querySelector("#klima-datenstand");
+      infoHost.id = "klima-error-host-" + klimaUid;
+      const anchor = root.querySelector("#klima-datenstand-" + klimaUid);
       if (anchor && anchor.parentNode) anchor.parentNode.insertBefore(infoHost, anchor.nextSibling);
       else root.prepend(infoHost);
     }
@@ -555,7 +573,12 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   }
 
   function numVal(row, col) {
-    return parseFloat(row[col]);
+    const v = row[col];
+    if (typeof v === "number") return v;
+    // Deutsche Dezimalkommas („12,5“) — sonst still 12 statt 12,5.
+    const s = String(v ?? "").trim();
+    if (/^[+-]?\d+,\d+$/.test(s)) return parseFloat(s.replace(",", "."));
+    return parseFloat(s);
   }
 
   function avg(rows, col) {
@@ -576,14 +599,27 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   }
 
   // ── Chart.js laden ─────────────────────────────────────────────────
+  // KL-B2: mit Script-ID (keine Doppel-Tags bei parallelen Aufrufen) und
+  // Fehlerpfad statt stillem Hängen.
   function loadChartJs(callback) {
     if (window.Chart) {
       callback();
       return;
     }
+    const fehler = () => {
+      if (!disposed) renderKlimaError("Chart.js konnte nicht geladen werden.");
+    };
+    const vorhanden = document.getElementById("klima-chartjs");
+    if (vorhanden) {
+      vorhanden.addEventListener("load", callback);
+      vorhanden.addEventListener("error", fehler);
+      return;
+    }
     const s = document.createElement("script");
+    s.id = "klima-chartjs";
     s.src = "vendor/chartjs/chart.umd.min.js";
     s.onload = callback;
+    s.onerror = fehler;
     document.head.appendChild(s);
   }
 
@@ -624,7 +660,8 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       typLabel: "Statische Datei",
       erwarteterTyp: "csv-zip",
     };
-    if (!apiurl) {
+    // KL-B4: auch {{...}}-Platzhalter als „keine Quelle" zeigen.
+    if (isKeineDatenquelleKonfiguriert(apiurl)) {
       renderOdasFehler(root, new Error("Keine Datenquelle konfiguriert."), klKontext);
       return;
     }
@@ -635,7 +672,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       return;
     }
     setStatus("Lade Daten …");
-    const oldHost = root.querySelector("#klima-error-host");
+    const oldHost = root.querySelector("#klima-error-host-" + klimaUid);
     if (oldHost) oldHost.innerHTML = "";
     try {
       const csvText = await fetchCsvText(apiurl);
@@ -646,12 +683,28 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       renderDatenstand();
       if (allRows.length === 0) {
         renderKlimaInfo("Keine Datensätze in der Datenquelle gefunden.");
+        buildJahrFilter();
         buildMonatFilter();
         applyFilter();
         return;
       }
-      if (root.querySelector("#klima-error-host")) root.querySelector("#klima-error-host").innerHTML = "";
+      // KL-B3: Schema-Prüfung — fremde Stations-CSVs scheitern sonst still
+      // (alles NaN, leeres Dashboard). Tolerant: Datum + ≥1 Messspalte genügt.
+      const klGefundene = Object.keys(allRows[0] || {});
+      const klMessSpalten = Object.values(COL).filter(
+        (c) => c !== COL.datum && klGefundene.includes(c),
+      );
+      if (!klGefundene.includes(COL.datum) || klMessSpalten.length === 0) {
+        renderKlimaError(
+          "Die CSV-Datei hat ein unerwartetes Spaltenformat (erwartet „Datum“ plus Messwerte wie „Mittlere_Temperatur“). Gefunden: " +
+            (klGefundene.slice(0, 8).join(", ") || "keine") +
+            ".",
+        );
+        return;
+      }
+      if (root.querySelector("#klima-error-host-" + klimaUid)) root.querySelector("#klima-error-host-" + klimaUid).innerHTML = "";
       setStatus(allRows.length + " Datensätze geladen");
+      buildJahrFilter();
       buildMonatFilter();
       applyFilter();
     } catch (e) {
@@ -660,17 +713,38 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     }
   }
 
-  // ── Monat-Filter ───────────────────────────────────────────────────
+  // ── Jahr-Filter ────────────────────────────────────────────────────
+  function buildJahrFilter() {
+    const jahre = [
+      ...new Set(
+        allRows
+          .map((r) => String(r[COL.datum] || "").substring(0, 4))
+          .filter((j) => /^\d{4}$/.test(j)),
+      ),
+    ].sort();
+    const sel = root.querySelector("#klima-filter-jahr-" + klimaUid);
+    if (!sel) return;
+    sel.innerHTML = '<option value="">Alle Jahre</option>';
+    jahre.forEach((j) => {
+      const o = document.createElement("option");
+      o.value = j;
+      o.textContent = j;
+      sel.appendChild(o);
+    });
+  }
+
+  // ── Monat-Filter (je nach Jahr eingeschränkt) ───────────────────────
   function buildMonatFilter() {
+    const jahr = (root.querySelector("#klima-filter-jahr-" + klimaUid) || {}).value || "";
     const monate = [
       ...new Set(
         allRows
           .map((r) => String(r[COL.datum] || "").substring(0, 7))
-          .filter((m) => m.length === 7),
+          .filter((m) => m.length === 7 && (!jahr || m.startsWith(jahr))),
       ),
     ].sort();
 
-    const sel = root.querySelector("#klima-filter-monat");
+    const sel = root.querySelector("#klima-filter-monat-" + klimaUid);
     if (!sel) return;
     sel.innerHTML = '<option value="">Alle Monate</option>';
     const namen = [
@@ -698,11 +772,16 @@ function app(configdata = {}, enclosingHtmlDivElement) {
 
   // ── Filter anwenden ────────────────────────────────────────────────
   function applyFilter() {
-    const monat = (root.querySelector("#klima-filter-monat") || {}).value || "";
-    filtered = monat
-      ? allRows.filter((r) => String(r[COL.datum] || "").startsWith(monat))
-      : allRows.slice();
-    const rc = root.querySelector("#klima-record-count");
+    if (disposed) return;
+    const jahr = (root.querySelector("#klima-filter-jahr-" + klimaUid) || {}).value || "";
+    const monat = (root.querySelector("#klima-filter-monat-" + klimaUid) || {}).value || "";
+    filtered = allRows.filter((r) => {
+      const d = String(r[COL.datum] || "");
+      if (jahr && !d.startsWith(jahr)) return false;
+      if (monat && !d.startsWith(monat)) return false;
+      return true;
+    });
+    const rc = root.querySelector("#klima-record-count-" + klimaUid);
     if (rc) rc.textContent = filtered.length + " Einträge";
     updateKPIs(filtered);
     renderTable(filtered, 0);
@@ -712,14 +791,24 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   // ── KPIs ───────────────────────────────────────────────────────────
   function updateKPIs(rows) {
     function set(id, val, unit, decimals = 1) {
-      const el = root.querySelector("#klima-" + id);
+      const el = root.querySelector("#klima-" + id + "-" + klimaUid);
       if (el)
         el.textContent = isNaN(val)
           ? "–"
           : val.toFixed(decimals) + "\u00a0" + unit;
     }
-    const elTage = root.querySelector("#klima-kpi-tage");
+    const elTage = root.querySelector("#klima-kpi-tage-" + klimaUid);
     if (elTage) elTage.textContent = rows.length;
+    // Extremwert-Kennzahlen (DWD-Schwellen).
+    const elHitze = root.querySelector("#klima-kpi-hitze-" + klimaUid);
+    if (elHitze)
+      elHitze.textContent = rows.filter((r) => numVal(r, COL.tempMax) >= 30).length;
+    const elFrost = root.querySelector("#klima-kpi-frost-" + klimaUid);
+    if (elFrost)
+      elFrost.textContent = rows.filter((r) => numVal(r, COL.tempMin) < 0).length;
+    const elRegen = root.querySelector("#klima-kpi-starkregen-" + klimaUid);
+    if (elRegen)
+      elRegen.textContent = rows.filter((r) => numVal(r, COL.regen) >= 20).length;
 
     set("kpi-temp-avg", avg(rows, COL.tempAvg), "°C");
     set("kpi-temp-max", max(rows, COL.tempMax), "°C");
@@ -735,7 +824,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
     currentPage = page;
     const allCols = Object.values(COL);
 
-    const head = root.querySelector("#klima-tbl-head");
+    const head = root.querySelector("#klima-tbl-head-" + klimaUid);
     if (head)
       head.innerHTML =
         "<tr>" +
@@ -745,7 +834,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
         "</tr>";
 
     const slice = rows.slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE);
-    const body = root.querySelector("#klima-tbl-body");
+    const body = root.querySelector("#klima-tbl-body-" + klimaUid);
     if (body)
       body.innerHTML = slice.length
         ? slice
@@ -770,10 +859,10 @@ function app(configdata = {}, enclosingHtmlDivElement) {
         : '<tr><td colspan="13" class="text-center text-muted py-3">Keine Daten</td></tr>';
 
     const total = Math.ceil(rows.length / PAGE_SIZE);
-    const pi = root.querySelector("#klima-page-info");
+    const pi = root.querySelector("#klima-page-info-" + klimaUid);
     if (pi) pi.textContent = `Seite ${page + 1} von ${Math.max(1, total)}`;
-    const bp = root.querySelector("#klima-btn-prev");
-    const bn = root.querySelector("#klima-btn-next");
+    const bp = root.querySelector("#klima-btn-prev-" + klimaUid);
+    const bn = root.querySelector("#klima-btn-next-" + klimaUid);
     if (bp) bp.disabled = page === 0;
     if (bn) bn.disabled = (page + 1) * PAGE_SIZE >= rows.length;
   }
@@ -799,7 +888,7 @@ function app(configdata = {}, enclosingHtmlDivElement) {
           charts[id].destroy();
           delete charts[id];
         }
-        const canvas = root.querySelector("#klima-" + id);
+        const canvas = root.querySelector("#klima-" + id + "-" + klimaUid);
         if (!canvas) return;
         charts[id] = new Chart(canvas, config);
       }
@@ -990,36 +1079,75 @@ function app(configdata = {}, enclosingHtmlDivElement) {
         },
       });
 
-      // Resize wenn versteckter Tab eingeblendet wird
-      root.querySelectorAll('[data-bs-toggle="tab"]').forEach((btn) => {
-        btn.addEventListener("shown.bs.tab", () => {
-          Object.values(charts).forEach((c) => {
-            if (c) c.resize();
-          });
-        });
-      });
     });
   }
 
   // ── Events ─────────────────────────────────────────────────────────
-  const filterEl = root.querySelector("#klima-filter-monat");
+  // Tab-Resize einmalig verdrahten (früher in renderCharts → Listener-
+  // Akkumulation bei jedem Filterwechsel, KL-B1).
+  root.querySelectorAll('[data-bs-toggle="tab"]').forEach((btn) => {
+    btn.addEventListener("shown.bs.tab", () => {
+      if (disposed) return;
+      Object.values(charts).forEach((c) => {
+        if (c) c.resize();
+      });
+    });
+  });
+
+  const jahrEl = root.querySelector("#klima-filter-jahr-" + klimaUid);
+  if (jahrEl)
+    jahrEl.addEventListener("change", () => {
+      buildMonatFilter();
+      applyFilter();
+    });
+
+  const filterEl = root.querySelector("#klima-filter-monat-" + klimaUid);
   if (filterEl) filterEl.addEventListener("change", applyFilter);
 
-  const resetEl = root.querySelector("#klima-btn-reset");
+  const resetEl = root.querySelector("#klima-btn-reset-" + klimaUid);
   if (resetEl)
     resetEl.addEventListener("click", () => {
-      const m = root.querySelector("#klima-filter-monat");
+      const j = root.querySelector("#klima-filter-jahr-" + klimaUid);
+      if (j) j.value = "";
+      buildMonatFilter();
+      const m = root.querySelector("#klima-filter-monat-" + klimaUid);
       if (m) m.value = "";
       applyFilter();
     });
 
-  const prevEl = root.querySelector("#klima-btn-prev");
+  const expEl = root.querySelector("#klima-btn-export-" + klimaUid);
+  if (expEl)
+    expEl.addEventListener("click", () => {
+      if (disposed || filtered.length === 0) return;
+      const kopf = Object.values(COL);
+      const esc = (v) => {
+        const s = String(v ?? "");
+        return /[";\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+      };
+      const zeilen = [kopf.map((c) => COL_LABELS[c] || c).map(esc).join(";")];
+      filtered.forEach((r) => {
+        zeilen.push(kopf.map((c) => esc(r[c] ?? "")).join(";"));
+      });
+      const blob = new Blob(["\uFEFF" + zeilen.join("\r\n")], {
+        type: "text/csv;charset=utf-8",
+      });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "klimadaten-export.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
+
+  const prevEl = root.querySelector("#klima-btn-prev-" + klimaUid);
   if (prevEl)
     prevEl.addEventListener("click", () =>
       renderTable(filtered, currentPage - 1),
     );
 
-  const nextEl = root.querySelector("#klima-btn-next");
+  const nextEl = root.querySelector("#klima-btn-next-" + klimaUid);
   if (nextEl)
     nextEl.addEventListener("click", () =>
       renderTable(filtered, currentPage + 1),
@@ -1047,4 +1175,6 @@ function onPageLeave() {
   klimaCleanups.clear();
 }
 
-function addToHead() {}
+function addToHead() {
+  return ``;
+}

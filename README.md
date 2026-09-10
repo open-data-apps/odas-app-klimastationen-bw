@@ -22,9 +22,9 @@ Die App ist eine Single-Page-Application Webapp mit:
 - Seiten für Impressum, Datenschutz, Beschreibung, Kontakt, Hauptinhalt
 - Inhaltsbereich
 - Fußzeile
-- KPI-Kacheln für Messtage, Temperatur und Regen
-- Linienchart für den Temperaturverlauf
-- Filter nach Monat und paginierte Datentabelle
+- KPI-Kacheln für Messtage, Temperatur, Regen, Wind, Luftdruck, Luftfeuchte, Sonne sowie Extremwerte (Hitzetage, Frosttage, Starkregentage)
+- Linien-/Balkencharts für Temperatur, Wind, Niederschlag und Klima (4 Tabs)
+- Filter nach Jahr und Monat, paginierte Datentabelle, CSV-Export der Filteransicht
 
 Die Konfiguration wird vom ODAS geladen.
 

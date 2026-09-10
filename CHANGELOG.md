@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.32.3 - 2026-09-10
+- **FIX:** Same-Page-Re-Render räumt Vorgänger-Charts ab (KL-B1, previous-cleanup); Tab-Resize-Listener nur einmal verdrahtet (keine Akkumulation mehr).
+- **FIX:** Chart-Loader mit Script-ID und Fehlerpfad (KL-B2); `{{...}}`-Platzhalter als „keine Quelle" erkannt (KL-B4); toter Code (`isLeerErgebnis`) entfernt, `addToHead` gibt `""` zurück (KL-B5).
+- **FIX:** Fremde Stations-CSVs melden konkretes Spaltenformat statt leerem Dashboard (KL-B3, tolerant: Datum + ≥1 Messspalte).
+- **ROBUST:** Alle `klima-*`-IDs instanz-scoped; deutsche Dezimalkommas in Messwerten (`12,5`).
+- **FEATURE:** Jahr-Filter (Monate je Jahr eingeschränkt); Extremwert-KPIs (Hitzetage ≥30 °C, Frosttage <0 °C, Starkregentage ≥20 mm); CSV-Export der Filteransicht (BOM).
+
 ## 1.32.2 - 2026-09-08
 - **FIX:** Variante-A-Verdrahtung (F-92): Typprüfung (csv-zip/statische Datei) vor dem ersten Fetch; Quellen- und Ladefehler über `renderOdasFehler`; Fixture typkonform (1.32.1 -> 1.32.2).
 
