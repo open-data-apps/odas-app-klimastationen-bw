@@ -1,0 +1,59 @@
+{
+  "version": "1",
+  "table-schema-version": "1.0",
+  "quellen": {
+    "klimastationen": {
+      "bedarf": "pflicht",
+      "zugriff": {
+        "typ": "direkt"
+      },
+      "pruefungen": [
+        {
+          "name": "messwerte",
+          "ressource": {
+            "typ": "antwort"
+          },
+          "varianten": [
+            {
+              "name": "csv",
+              "erkennung": {
+                "format": "csv"
+              },
+              "leser": {
+                "profil": "csv-v1",
+                "encoding": "utf-8",
+                "dialect": {
+                  "delimiter": ",",
+                  "quoteChar": "\"",
+                  "doubleQuote": true,
+                  "header": true,
+                  "skipInitialSpace": false,
+                  "caseSensitiveHeader": true,
+                  "csvddfVersion": 1.2
+                }
+              },
+              "verfahren": "frictionless",
+              "schema": "assets/schema.json",
+              "felder": {
+                "optional": [
+                  "Mittlere_Temperatur",
+                  "Temp_max",
+                  "Temp_min",
+                  "Regen_mm",
+                  "Strahlung_ W/m²",
+                  "Mittlere_Windgeschwindigkeit_km/h",
+                  "Windboen_km/h",
+                  "Richtung",
+                  "Mittlerer_Luftdruck_hPa",
+                  "Mittlere_Luftfeuchte",
+                  "Taupunkt",
+                  "Sonnenscheindauer_Min"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

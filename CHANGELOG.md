@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.32.6 - 2026-10-13
+- ENH: Datenvertrag `assets/datenvertraege.json` für die Store-Datenprüfung (`daten.pruefung`): die CSV-Quelle `klimastationen` wird mit Frictionless gegen `assets/schema.json` geprüft; die Messspalten sind wie in der App optional, `Datum` ist Pflicht. Testfälle unter `tests/datenvertrag/`.
+
 ## 1.32.5 - 2026-10-02
 - ENH: Verwendete ODAS-Dienste in `odas-services` deklariert.
 
