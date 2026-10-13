@@ -240,6 +240,15 @@ function classifyOdasFehler(error, kontext = {}) {
   };
 }
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 function renderOdasFehler(container, error, kontext = {}) {
   if (!container) return;
   const typWarn = validateUrlTypErwartung(kontext.url, kontext.erwarteterTyp);
@@ -481,14 +490,6 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   });
 
   // ── Schale-4: Datenfrische, Methodikbox & weiterführende Links ──────
-  function escapeHtml(value) {
-    return String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
 
   function renderDatenstand() {
     const el = root.querySelector("#klima-datenstand-" + klimaUid);

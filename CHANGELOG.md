@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.32.5 - 2026-10-02
+- ENH: Verwendete ODAS-Dienste in `odas-services` deklariert.
+
+## 1.32.4 - 2026-09-29
+
+- **FIX:** Audit F-118: `renderOdasFehler` (Modul-Ebene) rief das nur innerhalb von `app()` definierte `escapeHtml` auf — bei fehlender Quelle erschien ein ReferenceError statt des Konfigurationsfehlers. `escapeHtml` an Modul-Ebene verschoben; Fehler-/Leerzustände erscheinen wieder sichtbar (Browser nachgewiesen).
+
 ## 1.32.3 - 2026-09-10
 - **FIX:** Same-Page-Re-Render räumt Vorgänger-Charts ab (KL-B1, previous-cleanup); Tab-Resize-Listener nur einmal verdrahtet (keine Akkumulation mehr).
 - **FIX:** Chart-Loader mit Script-ID und Fehlerpfad (KL-B2); `{{...}}`-Platzhalter als „keine Quelle" erkannt (KL-B4); toter Code (`isLeerErgebnis`) entfernt, `addToHead` gibt `""` zurück (KL-B5).
