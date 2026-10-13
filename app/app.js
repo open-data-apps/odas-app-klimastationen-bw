@@ -487,6 +487,13 @@ function app(configdata = {}, enclosingHtmlDivElement) {
       if (c) c.destroy();
     });
     for (const k in charts) delete charts[k];
+    // F-161: Von Bootstrap registrierte Tab-Instanzen halten entfernte Oberflächen fest.
+    if (window.bootstrap && window.bootstrap.Tab) {
+      root.querySelectorAll('[data-bs-toggle="tab"]').forEach((btn) => {
+        const tab = window.bootstrap.Tab.getInstance(btn);
+        if (tab) tab.dispose();
+      });
+    }
   });
 
   // ── Schale-4: Datenfrische, Methodikbox & weiterführende Links ──────
