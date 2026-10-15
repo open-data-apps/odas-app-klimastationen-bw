@@ -1,7 +1,7 @@
 # Changelog
 
 ## 1.32.11 - 2026-10-15
-- FIX: H4: Die Diagramme laufen jetzt auf einer aufsteigenden Zeitachse (ältestes Datum links); die Quelle liefert die neueste Zeile zuerst, die Tabelle behält diese Reihenfolge. Ein Tiefstwert von 0,00 bei positivem Tagesmittel gilt als fehlend und erzeugt keinen Ausschlag auf 0 °C mehr; echter Frost (Mittel ≤ 0) bleibt unverändert.
+- FIX: Die Diagramme laufen jetzt auf einer aufsteigenden Zeitachse (ältestes Datum links); die Quelle liefert die neueste Zeile zuerst, die Tabelle behält diese Reihenfolge. Ein Tiefstwert von 0,00 bei positivem Tagesmittel gilt als fehlend und erzeugt keinen Ausschlag auf 0 °C mehr; echter Frost (Mittel ≤ 0) bleibt unverändert.
 
 ## 1.32.10 - 2026-10-15
 - DOCS: Neue Store-Screenshots: je drei Desktop- (1440 × 1000) und Mobile-Aufnahmen (390 × 844) der aktuellen App, aufgenommen auf der Dev-Instanz. Bisherige Bilder nach `docs/screenshots/archive/2026-10-13/` verschoben. Keine Änderung an App-Code oder Konfiguration.
