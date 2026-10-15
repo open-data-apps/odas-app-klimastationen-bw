@@ -666,6 +666,8 @@ function app(configdata = {}, enclosingHtmlDivElement) {
         const num = parseFloat(raw);
         obj[h] = !raw || String(num) !== raw ? raw : num;
       });
+      // H4: Tiefstwert 0,00 bei positivem Tagesmittel ist ein Platzhalter für „fehlt“.
+      if (numVal(obj, COL.tempMin) === 0 && numVal(obj, COL.tempAvg) > 0) obj[COL.tempMin] = "";
       return obj;
     });
   }
@@ -889,6 +891,8 @@ function app(configdata = {}, enclosingHtmlDivElement) {
   function renderCharts(rows) {
     loadChartJs(() => {
       if (disposed) return;
+      // H4: Quelle liefert neueste Zeile zuerst; Zeitachse der Diagramme läuft aufsteigend.
+      rows = rows.slice().sort((a, b) => String(a[COL.datum]).localeCompare(String(b[COL.datum])));
       const labels = rows.map((r) =>
         String(r[COL.datum] || "").substring(0, 10),
       );
