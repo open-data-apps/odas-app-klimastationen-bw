@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.32.12 - 2026-10-15
+- FIX: Kopfzeile bei 360 px ohne Überlauf (Template): Logo- und Burger-Spalte passen sich der Breite an, das Menü-Symbol ragt nicht mehr über den rechten Rand. Keine Änderung an App-Code oder Konfiguration.
+
 ## 1.32.11 - 2026-10-15
 - FIX: Die Diagramme laufen jetzt auf einer aufsteigenden Zeitachse (ältestes Datum links); die Quelle liefert die neueste Zeile zuerst, die Tabelle behält diese Reihenfolge. Ein Tiefstwert von 0,00 bei positivem Tagesmittel gilt als fehlend und erzeugt keinen Ausschlag auf 0 °C mehr; echter Frost (Mittel ≤ 0) bleibt unverändert.
 
