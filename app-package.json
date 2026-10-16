@@ -3,7 +3,7 @@
   "app-entwickler-name": "ondics-gmbh",
   "name-in-url": "klimastationen",
   "name": "Klimastationen",
-  "app-version": "1.32.12",
+  "app-version": "1.32.13",
   "app-package-version": "2",
   "odas-app-icon": "assets/odas-app-icon.svg",
   "app-icon": "assets/odas-app-icon.svg",
@@ -59,7 +59,6 @@
     "assets/Mobile_Screenshot_3.png"
   ],
   "daten": {
-    "pruefung": "assets/datenvertraege.json",
     "beschreibung": "Die App verarbeitet Klimadaten aus konfigurierbaren Open-Data-Ressourcen (z.B. CSV-Endpunkte) und bereitet sie als Kennzahlen, Diagramm und Tabelle auf.",
     "schema": "assets/schema.json",
     "beispiel": "Komma-getrennte CSV-Datei mit Kopfzeile (13 Spalten: Datum, Temperatur-, Niederschlags-, Wind-, Luftdruck-, Feuchte- und Strahlungswerte).",
